@@ -23,7 +23,7 @@
 :root{--rose:#F43F7A;--rose-soft:#F9A8C9;--rose-pale:#FEF0F5;--rose-ultra:#FFF7FA;--plum:#9B2C6E;--lilac:#C084FC;--lilac-pale:#F3E8FF;--sand:#F5F0EB;--text:#2D1B2E;--text-mid:#7C4D6E;--text-soft:#B08090;--white:#FFFFFF;--border:rgba(244,63,122,0.12);--radius:18px;--radius-sm:10px;--shadow:0 2px 16px rgba(244,63,122,0.07)}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Nunito',sans-serif;background:var(--sand);color:var(--text);min-height:100vh;padding-bottom:60px}
-.header{background:var(--white);padding:24px 20px 0;border-bottom:1px solid var(--border);box-shadow:var(--shadow)}
+.header{background:var(--white);padding:calc(env(safe-area-inset-top) + 18px) 20px 0;border-bottom:1px solid var(--border);box-shadow:var(--shadow)}
 .header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 .header-name{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--text)}
 .header-name span{color:var(--rose);font-style:italic}
@@ -522,13 +522,15 @@ body{padding-bottom:calc(90px + env(safe-area-inset-bottom))}
     <div id="plan-container"></div>
   </div>
   <div class="tab-pane" id="pane-consejos">
-    <div class="moti"><div class="moti-text">Consejos basados<br>en tus datos reales 📊</div><div class="moti-sub">Personalizados para ti</div></div>
-    <div class="tip-card"><div class="tip-icon">🩷</div><div class="tip-title">Corre más en zona 2</div><div class="tip-body">La mayoría de tus carreras están en zona 3–4. Intenta que 2 de tus carreras semanales sean en zona 2 (ritmo conversacional ~7:30–8:00 min/km).</div></div>
-    <div class="tip-card"><div class="tip-icon">📏</div><div class="tip-title">Incrementa la tirada larga gradualmente</div><div class="tip-body">Agrega 1–2 km por semana. Necesitas llegar a 18–19 km antes del 13 de julio. Descansa cada 4ª semana.</div></div>
-    <div class="tip-card" style="border-left-color:#FCD34D"><div class="tip-icon">⚡</div><div class="tip-title">Un día de velocidad fijo por semana</div><div class="tip-body">5×1 km a ritmo 5:50–6:00 min/km con 90 seg de recuperación. Mejora tu umbral de lactato.</div></div>
-    <div class="tip-card" style="border-left-color:#FB923C"><div class="tip-icon">🔥</div><div class="tip-title">Tu mejor ritmo: 5:29 min/km</div><div class="tip-body">Lo lograste en Boca del Río. Para el medio maratón apunta a salir a 6:20–6:30 y mantenerlo constante.</div></div>
-    <div class="tip-card" style="border-left-color:#4ADE80"><div class="tip-icon">🥤</div><div class="tip-title">Practica hidratación en carrera</div><div class="tip-body">Desde los 14 km, toma agua y gel cada 45 minutos. El cuerpo necesita energía extra después de 60 minutos.</div></div>
-    <div class="tip-card" style="border-left-color:var(--lilac)"><div class="tip-icon">🌸</div><div class="tip-title">Tapering: semana antes de la carrera</div><div class="tip-body">Del 30 jun al 6 jul reduce el volumen al 40%. Solo 3 rodajes cortos de 4–5 km. Llega descansada al 13 de julio.</div></div>
+    <div class="moti"><div class="moti-text">Consejos de tu análisis<br>de 299 actividades 📊</div><div class="moti-sub">Basados en tus datos reales de Garmin</div></div>
+    <div class="tip-card" style="border-left-color:#F43F7A"><div class="tip-icon">🐢</div><div class="tip-title">El cambio #1: corre más lento en días fáciles</div><div class="tip-body">Tu FC media es 161 lpm y el 75% de tus carreras están en Z3–Z4. El ritmo Z2 real para ti es 8:00–8:30 min/km, no 7:00–7:30. Correr más lento en días fáciles te hará más rápida en carrera. Suena paradójico — es ciencia.</div></div>
+    <div class="tip-card"><div class="tip-icon">🏗️</div><div class="tip-title">Progresión de tirada larga corregida</div><div class="tip-body">El plan original saltaba de 14→16→18 km en 3 semanas. El nuevo plan arranca en 11 km y sube con semanas de recuperación cada 3 semanas de carga. Tu cuerpo lo agradecerá y llegarás sin lesiones al 13 de julio.</div></div>
+    <div class="tip-card" style="border-left-color:#FCD34D"><div class="tip-icon">⚡</div><div class="tip-title">Intervalos: 1 día de velocidad, no más</div><div class="tip-body">Un solo día de series por semana es suficiente. El plan incluye semanas alternas de 5×1 km, 6×1 km y 7×1 km a 5:50–6:00 min/km, más días de tempo a 6:00–6:10. Las series mejoran tu umbral de lactato en exactamente la zona que necesitas para el HM.</div></div>
+    <div class="tip-card" style="border-left-color:#FB923C"><div class="tip-icon">🔥</div><div class="tip-title">Tu potencial real: Boca del Río lo demostró</div><div class="tip-body">Corriste 10 km a 5:29 min/km con FC de 183 lpm (Z5 máximo). Eso es capacidad anaeróbica excelente. Para el medio maratón, esa fuerza se traduce en sostener 6:20 durante 21 km. Sal conservadora y deja los últimos 6 km para brillar.</div></div>
+    <div class="tip-card" style="border-left-color:#4ADE80"><div class="tip-icon">🥤</div><div class="tip-title">Practica geles desde ahora, no el día de la carrera</div><div class="tip-body">El estómago necesita entrenarse para recibir gel corriendo. Empieza a practicar en cada tirada larga de más de 70 min: gel al km 8–9. Usa el mismo gel que habrá en la carrera. Un gel desconocido el 13 de julio puede arruinar tu carrera.</div></div>
+    <div class="tip-card" style="border-left-color:var(--lilac)"><div class="tip-icon">😴</div><div class="tip-title">Las semanas de recuperación son sagradas</div><div class="tip-body">El plan tiene 3 semanas de recuperación (sem 4, 7 y 10). No las saltes aunque te sientas bien. Es cuando el cuerpo supera-compensa y sale más fuerte. Saltarlas aumenta el riesgo de lesión en un 40–60%.</div></div>
+    <div class="tip-card" style="border-left-color:#60A5FA"><div class="tip-icon">🧠</div><div class="tip-title">Estrategia mental para el km 17–18</div><div class="tip-body">En el km 17–18 tu cerebro va a decir "no puedo más" aunque tu cuerpo sí pueda. Prepara un mantra hoy: "Un km más." "Entrené para esto." "Cada domingo me trajo aquí." Practícalo en las tiradas largas del plan para que salga solo el 13 de julio.</div></div>
+    <div class="tip-card" style="border-left-color:#F472B6"><div class="tip-icon">🌸</div><div class="tip-title">Tapering: confía en el proceso</div><div class="tip-body">Del 30 jun al 12 jul el volumen baja progresivamente. Sentirás que "no estás haciendo suficiente" — eso es exactamente correcto. El tapering añade entre 2–5 minutos de mejora el día de la carrera. No rompas el tapering con un "rodaje extra".</div></div>
   </div>
   <div class="tab-pane" id="pane-actualizar">
     <div class="moti"><div class="moti-text">Actualiza tus datos 📂</div><div class="moti-sub">Se guardan automáticamente en Google Sheets</div></div>
@@ -574,77 +576,135 @@ body{padding-bottom:calc(90px + env(safe-area-inset-bottom))}
 const SCRIPT_URL='https://script.google.com/macros/s/AKfycbzw5aQhZBpQjWxMqmTCVRegdWUmTRmiDhK_pGKf_teH3_Yu1r_nm82J3EHF3egKEa6c/exec';
 let runs=[],chartInstances={};
 const planData=[
-  {label:'Sem 1 · 14–20 abr',days:[
-    {t:'easy',n:'Lu',short:'Fácil 6K',title:'Rodaje fácil — 6 km',desc:'Corre 6 km a un ritmo muy cómodo donde puedas mantener una conversación. El objetivo es activar las piernas y entrar en calor para la semana.',dist:'6 km',pace:'7:15–7:45',zona:'Z2',tip:'Usa este día para escuchar tu cuerpo. La facilidad de hoy construye la fuerza de mañana.'},
-    {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'El descanso es parte del entrenamiento. Tu cuerpo se recupera y se hace más fuerte.',dist:'—',pace:'—',zona:'—',tip:'Hidratarte bien y dormir 7–8 horas. La recuperación es cuando el cuerpo mejora.'},
-    {t:'speed',n:'Mi',short:'Fartlek 5K',title:'Fartlek — 5 km',desc:'Calienta 10 min. Alterna: 1 min rápido (esfuerzo 8/10) + 2 min suave. Repite 6–8 veces. Enfría 5 min.',dist:'5 km',pace:'Variado',zona:'Z3–Z4',tip:'El fartlek no tiene estructura rígida. Acelera cuando te sientas bien.'},
-    {t:'rest',n:'Ju',short:'Descanso',title:'Día de descanso',desc:'Descanso activo. Ideal para estiramientos de 15–20 min.',dist:'—',pace:'—',zona:'—',tip:'El foam roller en cuádriceps y gemelos hoy puede hacer maravillas.'},
-    {t:'easy',n:'Vi',short:'Ritmo 6K',title:'Rodaje a ritmo — 6 km',desc:'1 km calentamiento + 4 km a ritmo objetivo (6:20–6:30 min/km) + 1 km enfriamiento.',dist:'6 km',pace:'6:20–6:30',zona:'Z3–Z4',tip:'Es mejor terminar sintiéndote que podías dar más que terminar agotada.'},
-    {t:'rest',n:'Sá',short:'Descanso',title:'Descanso previo a tirada',desc:'Descansa antes de la tirada larga del domingo.',dist:'—',pace:'—',zona:'—',tip:'Prepara tu ropa y tu hidratación para mañana.'},
-    {t:'long',n:'Do',short:'Larga 14K',title:'Tirada larga — 14 km',desc:'El entrenamiento más importante de la semana. 14 km a ritmo cómodo (7:00–7:30) donde puedas hablar. Lleva agua y gel al km 8.',dist:'14 km',pace:'7:00–7:30',zona:'Z2–Z3',tip:'La tirada larga desarrolla tu resistencia mental y física para el 13 de julio.'},
+  // ── SEM 1 ── Base suave · Ritmo Z2 real basado en FC media 161 lpm
+  {label:'Sem 1 · 14–20 abr · Base suave',days:[
+    {t:'easy',n:'Lu',short:'Fácil 6K',title:'Rodaje fácil Z2 — 6 km',desc:'6 km a ritmo muy cómodo donde puedas mantener una conversación completa sin jadear. CLAVE: el ritmo correcto para ti es 8:00–8:30 min/km, más lento de lo que crees. Tu FC media debe quedarse por debajo de 145 lpm.',dist:'6 km',pace:'8:00–8:30',zona:'Z2',tip:'Si llegas a 7:30 y tu FC sube a 160+, ve más lento. El 80% del entrenamiento debe ser Z2. Hoy empieza ese hábito.'},
+    {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'El descanso es entrenamiento. Tu cuerpo reconstruye fibras musculares y almacena glucógeno hoy, no cuando corres.',dist:'—',pace:'—',zona:'—',tip:'Bebe al menos 2 litros de agua, duerme 7–8 h. Foam roller en cuádriceps y pantorrillas si tienes.'},
+    {t:'speed',n:'Mi',short:'Fartlek 5K',title:'Fartlek — 5 km',desc:'1 km calentamiento suave (8:30) + alterna 1 min rápido (esfuerzo 8/10, ~5:45–6:00) con 2 min suave. Repite 6–8 veces. 1 km enfriamiento. El fartlek es libre — acelera cuando te sientas bien, no hay presión de mantener ritmo exacto.',dist:'5 km',pace:'Variado (Z3–Z5 en series)',zona:'Z3–Z5',tip:'Hoy es el único día de la semana que puedes ir rápida. Disfrútalo. El resto de la semana, más lento.'},
+    {t:'rest',n:'Ju',short:'Descanso',title:'Día de descanso',desc:'Descanso activo. Camina 20–30 min o haz yoga suave. Nada de correr.',dist:'—',pace:'—',zona:'—',tip:'Estira isquiotibiales y flexores de cadera 15 min hoy. Previene lesiones en rodilla.'},
+    {t:'easy',n:'Vi',short:'Ritmo 6K',title:'Rodaje a ritmo — 6 km',desc:'1 km calentamiento (8:30) + 4 km a ritmo objetivo de carrera (6:30–6:40 min/km) + 1 km enfriamiento. Practica el ritmo del 13 de julio: controlado, no desesperado.',dist:'6 km',pace:'6:30–6:40 en medio',zona:'Z3–Z4',tip:'Si terminas sin sentirte agotada, lo hiciste perfecto. En carrera, saldrás así los primeros 5 km.'},
+    {t:'rest',n:'Sá',short:'Descanso',title:'Descanso antes de tirada larga',desc:'Descansa. Prepara tu hidratación y gel para mañana. Come bien: pasta, arroz o avena en la cena.',dist:'—',pace:'—',zona:'—',tip:'Duerme con ropa de correr lista. Reduce la fricción mental del domingo en la mañana.'},
+    {t:'long',n:'Do',short:'Larga 11K',title:'Tirada larga — 11 km',desc:'El entrenamiento más importante de la semana. 11 km muy suaves (8:00–8:30 min/km). Lleva agua. La conversación debe ser posible todo el tiempo. Arrancamos conservadora: tu máximo reciente son 15 km, pero construiremos progresión correcta desde 11 km.',dist:'11 km',pace:'8:00–8:30',zona:'Z2',tip:'Si el ritmo 8:30 se siente ridículamente lento, vas bien. La tirada larga en Z2 es la base de todo el plan.'},
   ]},
-  {label:'Sem 2 · 21–27 abr',days:[
-    {t:'easy',n:'Lu',short:'Fácil 6K',title:'Rodaje fácil — 6 km',desc:'Recuperación activa. 6 km muy suave. Tus piernas pueden sentirse pesadas — es normal.',dist:'6 km',pace:'7:20–7:50',zona:'Z2',tip:'Si las piernas están muy cargadas, reduce a 5 km.'},
-    {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'Descanso. Bebe 2 litros de agua hoy.',dist:'—',pace:'—',zona:'—',tip:'La hidratación acelera la recuperación muscular.'},
-    {t:'speed',n:'Mi',short:'5×1 km',title:'Intervalos 5×1 km',desc:'Calienta 1.5 km. 1 km rápido (5:50–6:00) + 90 seg recuperación. Repite 5 veces. Enfría 1 km.',dist:'~8 km',pace:'5:50–6:00 en series',zona:'Z4–Z5',tip:'Cada serie es un paso hacia el 13 de julio.'},
-    {t:'rest',n:'Ju',short:'Descanso',title:'Día de descanso',desc:'Descanso. Come proteínas para la recuperación.',dist:'—',pace:'—',zona:'—',tip:'Come proteínas hoy.'},
-    {t:'easy',n:'Vi',short:'Ritmo 7K',title:'Rodaje a ritmo — 7 km',desc:'1 km calentamiento + 5 km a ritmo objetivo (6:20–6:30) + 1 km enfriamiento.',dist:'7 km',pace:'6:20–6:30',zona:'Z3–Z4',tip:'Practica respirar de manera controlada.'},
-    {t:'rest',n:'Sá',short:'Descanso',title:'Descanso previo a tirada',desc:'Prepara todo para mañana.',dist:'—',pace:'—',zona:'—',tip:'Duerme bien.'},
-    {t:'long',n:'Do',short:'Larga 16K',title:'Tirada larga — 16 km',desc:'2 km más que la semana pasada. Ritmo conversacional (7:00–7:30). Gel al km 8 y km 12.',dist:'16 km',pace:'7:00–7:30',zona:'Z2–Z3',tip:'Si nunca has corrido 16 km, es un hito enorme.'},
+  // ── SEM 2 ── Construcción gradual
+  {label:'Sem 2 · 21–27 abr · Construcción',days:[
+    {t:'easy',n:'Lu',short:'Fácil 6K',title:'Rodaje fácil Z2 — 6 km',desc:'6 km muy suaves de recuperación activa. Tus piernas pueden sentirse pesadas después del domingo — es completamente normal. Mantén 8:00–8:30 min/km y disfruta el movimiento.',dist:'6 km',pace:'8:00–8:30',zona:'Z2',tip:'Si las piernas están cargadas, reduce a 5 km o cambia por 30 min de caminata. Escucha tu cuerpo.'},
+    {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'Descanso. Hoy el cuerpo asimila el entrenamiento de la semana pasada. La mejora ocurre en el descanso, no en el esfuerzo.',dist:'—',pace:'—',zona:'—',tip:'Proteína en cada comida hoy: huevo, pollo, legumbres. Acelera la recuperación muscular.'},
+    {t:'speed',n:'Mi',short:'5×1 km',title:'Intervalos 5×1 km',desc:'Calienta 1.5 km suave (8:30). Luego: 1 km rápido a 5:50–6:00 min/km + 90 seg caminando o trotando muy suave. Repite 5 veces. Enfría 1 km. Total ~9 km. Estas series mejoran tu umbral de lactato.',dist:'~9 km',pace:'5:50–6:00 en series',zona:'Z4–Z5',tip:'Cada km rápido te acerca al 13 de julio. La primera serie se siente fácil — guarda energía para la 4ª y 5ª.'},
+    {t:'rest',n:'Ju',short:'Descanso',title:'Día de descanso',desc:'Descanso post-intervalos. Tus piernas necesitan 48 horas para recuperarse de las series rápidas.',dist:'—',pace:'—',zona:'—',tip:'Hielo en cuádriceps si hay molestia. Come carbohidratos complejos hoy para el rodaje del viernes.'},
+    {t:'easy',n:'Vi',short:'Ritmo 7K',title:'Rodaje a ritmo — 7 km',desc:'1 km calentamiento + 5 km a ritmo objetivo (6:25–6:35 min/km) + 1 km enfriamiento. Un km más que la semana pasada al ritmo de carrera.',dist:'7 km',pace:'6:25–6:35 en medio',zona:'Z3–Z4',tip:'Practica respiración controlada: inhala 3 pasos, exhala 2. Reduce el esfuerzo percibido en carrera.'},
+    {t:'rest',n:'Sá',short:'Descanso',title:'Descanso antes de tirada',desc:'Descansa. Prepara gel, agua y ropa para mañana.',dist:'—',pace:'—',zona:'—',tip:'Come carbohidratos en la cena: pasta, arroz. Duerme bien.'},
+    {t:'long',n:'Do',short:'Larga 13K',title:'Tirada larga — 13 km',desc:'2 km más que la semana pasada. 13 km a ritmo conversacional (8:00–8:30 min/km). Lleva agua y practica beber mientras corres. Si llevas gel, tómalo al km 8.',dist:'13 km',pace:'8:00–8:30',zona:'Z2',tip:'Cada domingo de tirada larga construye la resistencia mental que necesitarás en el km 18 del 13 de julio.'},
   ]},
-  {label:'Sem 3 · 28 abr–4 may',days:[
-    {t:'easy',n:'Lu',short:'Fácil 7K',title:'Rodaje fácil — 7 km',desc:'7 km suaves. Ritmo muy cómodo.',dist:'7 km',pace:'7:20–7:50',zona:'Z2',tip:'Tu cuerpo ya sabe cómo manejarlo.'},
-    {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:''},
-    {t:'speed',n:'Mi',short:'Fartlek 6K',title:'Fartlek progresivo — 6 km',desc:'1 km calentamiento + 2 min rápido / 1 min suave × 8 veces + 1 km enfriamiento.',dist:'6 km',pace:'Progresivo',zona:'Z3–Z5',tip:'Nota cómo cada semana el esfuerzo se siente más manejable.'},
-    {t:'rest',n:'Ju',short:'Descanso',title:'Día de descanso',desc:'Visualiza la carrera del 13 de julio.',dist:'—',pace:'—',zona:'—',tip:'La visualización es una herramienta poderosa.'},
-    {t:'easy',n:'Vi',short:'Ritmo 8K',title:'Rodaje a ritmo — 8 km',desc:'1.5 km calentamiento + 5 km a ritmo objetivo + 1.5 km enfriamiento.',dist:'8 km',pace:'6:20–6:30',zona:'Z3–Z4',tip:'Si puedes hablar frases cortas al km 3, estás en el ritmo correcto.'},
-    {t:'rest',n:'Sá',short:'Descanso',title:'Descanso previo a tirada',desc:'Come carbohidratos hoy.',dist:'—',pace:'—',zona:'—',tip:'La carga de carbohidratos mejora el rendimiento.'},
-    {t:'long',n:'Do',short:'Larga 18K',title:'Tirada larga — 18 km',desc:'¡18 km! Ya estás al 85% del medio maratón. Ritmo muy suave. Gel al km 7, 12 y 16.',dist:'18 km',pace:'7:00–7:30',zona:'Z2–Z3',tip:'Los últimos 4 km serán difíciles. Divídelos en bloques de 1 km.'},
+  // ── SEM 3 ── Construcción
+  {label:'Sem 3 · 28 abr–4 may · Construcción',days:[
+    {t:'easy',n:'Lu',short:'Fácil 7K',title:'Rodaje fácil Z2 — 7 km',desc:'7 km suaves. Ya estás en la tercera semana y el ritmo fácil debería empezar a sentirse natural. Mantén 8:00–8:30. Si tu Garmin muestra FC por encima de 148, ve más lento.',dist:'7 km',pace:'8:00–8:30',zona:'Z2',tip:'Nota cómo la misma velocidad se siente más fácil que hace 2 semanas. Así funciona la base aeróbica.'},
+    {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:'Visualiza la carrera del 13 de julio hoy: el inicio, el km 10, la recta final. La visualización prepara el cerebro.'},
+    {t:'speed',n:'Mi',short:'Fartlek 6K',title:'Fartlek progresivo — 6 km',desc:'1 km calentamiento + alterna 2 min rápido / 1 min suave × 8 veces + 1 km enfriamiento. Más tiempo en rápido que la semana 1, lo que aumenta el estímulo aeróbico.',dist:'6 km',pace:'Progresivo Z3–Z5',zona:'Z3–Z5',tip:'En las últimas 2–3 repeticiones sentirás que cuesta. Ese esfuerzo es exactamente donde mejoras.'},
+    {t:'rest',n:'Ju',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:'Foam roller en banda IT y glúteos. Previene la rodilla de corredora que aparece en semanas de mayor volumen.'},
+    {t:'easy',n:'Vi',short:'Ritmo 8K',title:'Rodaje a ritmo — 8 km',desc:'1.5 km calentamiento + 5 km a ritmo objetivo (6:25–6:30 min/km) + 1.5 km enfriamiento. Si puedes hablar frases cortas durante el ritmo objetivo, estás en la zona correcta.',dist:'8 km',pace:'6:25–6:30 en medio',zona:'Z3–Z4',tip:'Practica tu estrategia de hidratación: bebe en los puntos específicos aunque no tengas sed todavía.'},
+    {t:'rest',n:'Sá',short:'Descanso',title:'Descanso antes de tirada',desc:'Carbohidratos en la cena. Duerme bien. Ropa lista.',dist:'—',pace:'—',zona:'—',tip:'La carga de carbohidratos la noche anterior mejora el rendimiento en tiradas largas de más de 90 min.'},
+    {t:'long',n:'Do',short:'Larga 15K',title:'Tirada larga — 15 km',desc:'¡Empatas tu récord personal! 15 km muy suaves (8:00–8:30). Lleva gel y tómalo al km 9. Practica beber agua en movimiento. Los últimos 2 km pueden sentirse duros — es normal y pasará.',dist:'15 km',pace:'8:00–8:30',zona:'Z2',tip:'Divide los últimos 5 km en bloques de 1 km. "Solo 1 km más" es tu mantra. Así lo harás en la carrera.'},
   ]},
-  {label:'Sem 4 · Recuperación',days:[
-    {t:'easy',n:'Lu',short:'Fácil 5K',title:'Rodaje fácil — 5 km',desc:'Semana de recuperación. 5 km muy suave.',dist:'5 km',pace:'7:30–8:00',zona:'Z1–Z2',tip:'La semana de recuperación es tan importante como las semanas duras.'},
-    {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:''},
-    {t:'easy',n:'Mi',short:'Trote 4K',title:'Trote suave — 4 km',desc:'Solo 4 km muy suaves.',dist:'4 km',pace:'8:00–8:30',zona:'Z1',tip:'Si te sientes cansada, camina.'},
-    {t:'rest',n:'Ju',short:'Descanso',title:'Día de descanso',desc:'Yoga restaurativo o estiramientos.',dist:'—',pace:'—',zona:'—',tip:''},
-    {t:'easy',n:'Vi',short:'Fácil 5K',title:'Rodaje fácil — 5 km',desc:'5 km suaves para cerrar la semana de recuperación.',dist:'5 km',pace:'7:20–7:45',zona:'Z2',tip:'Si las piernas se sienten ligeras, la recuperación funcionó.'},
+  // ── SEM 4 ── Recuperación (obligatoria cada 3 semanas)
+  {label:'Sem 4 · 5–11 may · Recuperación 🌸',days:[
+    {t:'easy',n:'Lu',short:'Fácil 5K',title:'Rodaje fácil — 5 km',desc:'Semana de recuperación. Reduce el volumen al 60% de la semana anterior. 5 km muy suaves, sin presión de ritmo. Deja que el cuerpo asimile las 3 semanas de trabajo.',dist:'5 km',pace:'8:00–8:30',zona:'Z1–Z2',tip:'La semana de recuperación NO es pérdida de tiempo. Es cuando tu cuerpo se vuelve más fuerte. Confía en el proceso.'},
+    {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'Descanso total.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'easy',n:'Mi',short:'Trote 4K',title:'Trote suave — 4 km',desc:'Solo 4 km muy relajados. Sin cronómetro si quieres. El objetivo es mantener las piernas activas, no estresar el cuerpo.',dist:'4 km',pace:'8:30–9:00',zona:'Z1',tip:'Si tienes alguna molestia que venías ignorando, atiéndela esta semana. Es el momento de sanarla.'},
+    {t:'rest',n:'Ju',short:'Descanso',title:'Día de descanso',desc:'Yoga restaurativo o estiramientos profundos de 20–30 min.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'easy',n:'Vi',short:'Fácil 5K',title:'Rodaje fácil — 5 km',desc:'5 km suaves. Si las piernas se sienten ligeras y con energía, la recuperación está funcionando.',dist:'5 km',pace:'8:00–8:30',zona:'Z2',tip:'¿Las piernas se sienten frescas? Perfecto. Eso es exactamente lo que queremos antes de la siguiente fase.'},
     {t:'rest',n:'Sá',short:'Descanso',title:'Día de descanso',desc:'Descansa.',dist:'—',pace:'—',zona:'—',tip:''},
-    {t:'long',n:'Do',short:'12K fácil',title:'Tirada — 12 km',desc:'Solo 12 km. Ritmo muy cómodo. Es tu recompensa por las 3 semanas duras.',dist:'12 km',pace:'7:00–7:30',zona:'Z2',tip:'Nota qué tan diferente se siente correr después de descansar.'},
+    {t:'long',n:'Do',short:'12K suave',title:'Tirada — 12 km',desc:'Solo 12 km. Más corto que la semana pasada, y eso está perfecto. Ritmo muy cómodo. Nota qué tan diferente se siente tu cuerpo después de una semana de menor volumen.',dist:'12 km',pace:'8:00–8:30',zona:'Z2',tip:'Esta tirada "fácil" te prepara mentalmente para los 19 km que vienen. Recuerda cómo se sienten las piernas hoy.'},
   ]},
-  {label:'Sem 5–8 · Construcción',days:[
-    {t:'easy',n:'Lu',short:'Fácil 7K',title:'Rodaje fácil — 7 km',desc:'Regresa con energía renovada. 7 km a ritmo cómodo.',dist:'7 km',pace:'7:10–7:40',zona:'Z2',tip:'Deberías sentirte renovada.'},
+  // ── SEM 5 ── Peak 1 · Primera tirada larga real de construcción
+  {label:'Sem 5 · 12–18 may · Peak 1',days:[
+    {t:'easy',n:'Lu',short:'Fácil 7K',title:'Rodaje fácil Z2 — 7 km',desc:'Regresa con energía renovada después de la semana de recuperación. 7 km a ritmo Z2 (8:00–8:30). Deberías sentirte con más fuerza que hace 2 semanas.',dist:'7 km',pace:'8:00–8:30',zona:'Z2',tip:'Si el cuerpo pide ir más rápido hoy, ignóralo. Guarda esa energía para el domingo.'},
     {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:''},
-    {t:'speed',n:'Mi',short:'6×1 km',title:'Intervalos 6×1 km',desc:'6 repeticiones de 1 km a 5:50–6:00 con 90 seg recuperación.',dist:'~9 km',pace:'5:50–6:00 en series',zona:'Z4–Z5',tip:'La sexta repetición va a ser dura. Cada una te hace más fuerte.'},
-    {t:'rest',n:'Ju',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:''},
-    {t:'easy',n:'Vi',short:'Ritmo 9K',title:'Rodaje a ritmo — 9 km',desc:'1.5 km calentamiento + 6 km a ritmo objetivo (6:15–6:25) + 1.5 km enfriamiento.',dist:'9 km',pace:'6:15–6:25',zona:'Z3–Z4',tip:'Si mantienes 6:20 durante 6 km hoy, podrás en los 21 km.'},
-    {t:'rest',n:'Sá',short:'Descanso',title:'Descanso previo a tirada',desc:'Prepara todo.',dist:'—',pace:'—',zona:'—',tip:''},
-    {t:'long',n:'Do',short:'Larga 19K',title:'Tirada larga — 19 km',desc:'¡Tu tirada más larga! 19 km a ritmo muy cómodo. Gel al km 8, 13 y 17.',dist:'19 km',pace:'7:00–7:30',zona:'Z2–Z3',tip:'Después de hoy, el medio maratón ya no parece imposible.'},
+    {t:'speed',n:'Mi',short:'6×1 km',title:'Intervalos 6×1 km',desc:'Calienta 1.5 km. Luego: 6 repeticiones de 1 km a 5:50–6:00 min/km con 90 seg de recuperación entre series. Enfría 1 km. Total ~10 km. Una serie más que en semana 2.',dist:'~10 km',pace:'5:50–6:00 en series',zona:'Z4–Z5',tip:'La 6ª serie va a doler. Hazla igual de rápida que la 1ª. Ahí es donde se construye el corredor de fondo.'},
+    {t:'rest',n:'Ju',short:'Descanso',title:'Día de descanso',desc:'Descanso. Recuperación post-intervalos. Come bien.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'easy',n:'Vi',short:'Ritmo 9K',title:'Rodaje a ritmo — 9 km',desc:'1.5 km calentamiento + 6 km a ritmo objetivo (6:20–6:25 min/km) + 1.5 km enfriamiento. Si sostienes 6 km a 6:20, el 13 de julio es tuyo.',dist:'9 km',pace:'6:20–6:25 en medio',zona:'Z3–Z4',tip:'6 km a ritmo de carrera es la simulación más cercana a los 21.1 km del 13 de julio. Practica el patrón de respiración.'},
+    {t:'rest',n:'Sá',short:'Descanso',title:'Descanso antes de tirada',desc:'Carbohidratos, hidratación, sueño. Prepara gel × 2.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'long',n:'Do',short:'Larga 17K',title:'Tirada larga — 17 km',desc:'2 km más que tu récord. ¡17 km! Ritmo Z2 todo el tiempo (8:00–8:30). Gel al km 9 y km 14. Agua cada 20–25 min. Los últimos 3 km serán un reto mental — usa el mantra "un km más".',dist:'17 km',pace:'8:00–8:30',zona:'Z2',tip:'Después de hoy, el medio maratón se verá más alcanzable. 17 km son el 80% de 21.1 km.'},
   ]},
-  {label:'Sem 9–11 · Peak',days:[
-    {t:'easy',n:'Lu',short:'Fácil 8K',title:'Rodaje fácil — 8 km',desc:'8 km suaves. Fase más intensa del plan.',dist:'8 km',pace:'7:10–7:40',zona:'Z2',tip:'No subestimes los rodajes fáciles.'},
-    {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:''},
-    {t:'speed',n:'Mi',short:'Tempo 8K',title:'Carrera tempo — 8 km',desc:'2 km calentamiento + 5 km a ritmo tempo (6:00–6:10) + 1 km enfriamiento.',dist:'8 km',pace:'6:00–6:10 en tempo',zona:'Z4',tip:'El tempo fortalece tu umbral de lactato.'},
-    {t:'rest',n:'Ju',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:''},
-    {t:'easy',n:'Vi',short:'Ritmo 10K',title:'Rodaje a ritmo — 10 km',desc:'2 km calentamiento + 6 km a ritmo objetivo (6:15–6:20) + 2 km enfriamiento.',dist:'10 km',pace:'6:15–6:20',zona:'Z3–Z4',tip:'Practica el mantra que usarás en los km difíciles de la carrera.'},
-    {t:'rest',n:'Sá',short:'Descanso',title:'Descanso previo a tirada',desc:'Última tirada larga importante.',dist:'—',pace:'—',zona:'—',tip:''},
-    {t:'long',n:'Do',short:'Larga 18K',title:'Tirada larga — 18 km',desc:'Última tirada larga. 18 km a ritmo muy cómodo.',dist:'18 km',pace:'7:00–7:30',zona:'Z2–Z3',tip:'¡Estás en la recta final!'},
+  // ── SEM 6 ── Peak 2 · Cumbre de distancia
+  {label:'Sem 6 · 19–25 may · Peak 2 — Cumbre',days:[
+    {t:'easy',n:'Lu',short:'Fácil 8K',title:'Rodaje fácil Z2 — 8 km',desc:'8 km suaves de recuperación activa. Después de los 17 km del domingo, las piernas pueden estar cargadas. 8:00–8:30 min/km, FC por debajo de 148.',dist:'8 km',pace:'8:00–8:30',zona:'Z2',tip:'No intentes "compensar" si el domingo te salió lento. El lunes siempre es Z2, sin excepciones.'},
+    {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:'Masaje de pies y pantorrillas. Después de semanas de carga, los pies trabajan más de lo que parecen.'},
+    {t:'speed',n:'Mi',short:'Tempo 8K',title:'Carrera tempo — 8 km',desc:'2 km calentamiento suave + 5 km a ritmo tempo (6:00–6:10 min/km, esfuerzo 7/10) + 1 km enfriamiento. El tempo fortalece tu umbral de lactato: el punto donde el ácido láctico empieza a acumularse.',dist:'8 km',pace:'6:00–6:10 en tempo',zona:'Z4',tip:'El tempo es más difícil que los intervalos porque no hay descanso entre series. Mantén el ritmo uniforme, no en negativo.'},
+    {t:'rest',n:'Ju',short:'Descanso',title:'Día de descanso',desc:'Descanso. Come proteínas y carbohidratos. Hidratación doble hoy.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'easy',n:'Vi',short:'Ritmo 9K',title:'Rodaje a ritmo — 9 km',desc:'1.5 km calentamiento + 6 km a ritmo objetivo (6:20–6:25 min/km) + 1.5 km enfriamiento. Mismo que la semana pasada — hoy debería sentirse más controlado.',dist:'9 km',pace:'6:20–6:25 en medio',zona:'Z3–Z4',tip:'Si el viernes pasado se sintió duro y hoy se siente manejable, el entrenamiento está funcionando. ¡Confía!'},
+    {t:'rest',n:'Sá',short:'Descanso',title:'Descanso antes de la tirada más larga',desc:'Mañana es el entrenamiento más importante del plan. Descansa, come bien (pasta/arroz en cena), hidratación, prepara 2 geles.',dist:'—',pace:'—',zona:'—',tip:'Prepara todo la noche anterior. Ropa, tenis, reloj cargado, gel × 2, agua. Reduce la fricción mental al levantarte.'},
+    {t:'long',n:'Do',short:'Larga 19K',title:'Tirada larga — 19 km ⭐',desc:'¡La tirada más larga del plan! 19 km a ritmo muy cómodo (8:00–8:30). Gel al km 8 y km 14. Agua cada 20 min. Después de este entrenamiento, el 13 de julio ya no es un sueño: es un plan. Los últimos 4 km serán difíciles — divídelos en bloques de 500 m.',dist:'19 km',pace:'8:00–8:30',zona:'Z2',tip:'Al km 16 dirás "no puedo más". En ese momento recuerda: entrenaste para exactamente este momento. Sigue. Uno. A. La. Vez.'},
   ]},
-  {label:'Sem 12 · Reducción',days:[
-    {t:'easy',n:'Lu',short:'Fácil 6K',title:'Rodaje fácil — 6 km',desc:'El volumen baja. 6 km muy suaves.',dist:'6 km',pace:'7:20–7:50',zona:'Z2',tip:'Estás acumulando energía para el día grande.'},
+  // ── SEM 7 ── Recuperación 2
+  {label:'Sem 7 · 26 may–1 jun · Recuperación 🌸',days:[
+    {t:'easy',n:'Lu',short:'Fácil 5K',title:'Rodaje fácil — 5 km',desc:'Semana de recuperación después del peak. Tus piernas hicieron un trabajo enorme. 5 km muy suaves, sin presión.',dist:'5 km',pace:'8:30–9:00',zona:'Z1',tip:'Si hay molestia en rodillas o tobillos, descansa 2 días más. La recuperación aquí es crítica.'},
+    {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'Descanso total.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'easy',n:'Mi',short:'Trote 4K',title:'Trote suave — 4 km',desc:'4 km sin presión. Si se siente pesado, camina parte.',dist:'4 km',pace:'9:00+',zona:'Z1',tip:''},
+    {t:'rest',n:'Ju',short:'Descanso',title:'Día de descanso',desc:'Yoga o estiramientos. Atiende cualquier molestia.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'easy',n:'Vi',short:'Fácil 6K',title:'Rodaje fácil — 6 km',desc:'6 km suaves. Si las piernas ya se sienten frescas, el cuerpo está recuperado y listo para la recta final del plan.',dist:'6 km',pace:'8:00–8:30',zona:'Z2',tip:'Faltan 6 semanas para el 13 de julio. La base ya está construida. Ahora la mantenemos y afinamos.'},
+    {t:'rest',n:'Sá',short:'Descanso',title:'Día de descanso',desc:'Descansa.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'long',n:'Do',short:'13K suave',title:'Tirada — 13 km',desc:'Solo 13 km, mucho más corto que el domingo pasado. Ritmo cómodo. Recarga la batería para la recta final.',dist:'13 km',pace:'8:00–8:30',zona:'Z2',tip:'Nota qué tan diferente se sienten 13 km después de haber corrido 19. Tu cuerpo ya es otro.'},
+  ]},
+  // ── SEM 8 ── Peak 3 · Afinar ritmo
+  {label:'Sem 8 · 2–8 jun · Peak 3 — Afinar',days:[
+    {t:'easy',n:'Lu',short:'Fácil 8K',title:'Rodaje fácil Z2 — 8 km',desc:'8 km suaves. La fase final del entrenamiento. Cada sesión ahora tiene un propósito muy claro.',dist:'8 km',pace:'8:00–8:30',zona:'Z2',tip:'5 semanas para la carrera. El trabajo duro está hecho. Ahora se afina.'},
     {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:''},
-    {t:'easy',n:'Mi',short:'Ritmo 6K',title:'Rodaje a ritmo — 6 km',desc:'1 km calentamiento + 4 km a ritmo objetivo + 1 km enfriamiento.',dist:'6 km',pace:'6:20–6:25',zona:'Z3–Z4',tip:'Tu cuerpo está listo.'},
+    {t:'speed',n:'Mi',short:'7×1 km',title:'Intervalos 7×1 km',desc:'Calienta 1.5 km. 7 repeticiones de 1 km a 5:50 min/km con 90 seg recuperación. Enfría 1 km. Total ~11 km. La semana con más series del plan.',dist:'~11 km',pace:'5:50 en series',zona:'Z4–Z5',tip:'7 series es el pico de velocidad del plan. Después de hoy el volumen de intervalos baja. Deja todo hoy.'},
+    {t:'rest',n:'Ju',short:'Descanso',title:'Día de descanso',desc:'Descanso post-series. Recuperación prioritaria.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'easy',n:'Vi',short:'Ritmo 10K',title:'Rodaje a ritmo — 10 km',desc:'2 km calentamiento + 6 km a ritmo objetivo (6:15–6:20 min/km) + 2 km enfriamiento. El rodaje a ritmo más largo del plan. Si sostienes 6 km a 6:15, el 13 de julio vas a romper 2:15.',dist:'10 km',pace:'6:15–6:20 en medio',zona:'Z3–Z4',tip:'Practica el mantra que usarás en los km 16–19 de la carrera. "Entrené para esto." "Un km más." Escógelo hoy.'},
+    {t:'rest',n:'Sá',short:'Descanso',title:'Descanso antes de tirada',desc:'Descanso. Prepara gel × 2 para mañana.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'long',n:'Do',short:'Larga 18K',title:'Tirada larga — 18 km',desc:'18 km muy suaves (8:00–8:30). Gel al km 9 y km 15. Esta es la penúltima tirada larga del plan. El volumen empieza a bajar la próxima semana. Disfruta este entrenamiento.',dist:'18 km',pace:'8:00–8:30',zona:'Z2',tip:'Ya corriste 19 km. Hoy son 18: más fácil. Tu cerebro ya sabe que puedes. Eso vale más que cualquier entrenamiento.'},
+  ]},
+  // ── SEM 9 ── Peak 4 · Última tirada larga importante
+  {label:'Sem 9 · 9–15 jun · Peak 4 — Último peak',days:[
+    {t:'easy',n:'Lu',short:'Fácil 8K',title:'Rodaje fácil Z2 — 8 km',desc:'8 km suaves. Penúltima semana de alto volumen. El tapering empieza la siguiente semana.',dist:'8 km',pace:'8:00–8:30',zona:'Z2',tip:'4 semanas para la carrera. El entrenamiento de resistencia está completo. De aquí en adelante afinamos y descansamos.'},
+    {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'speed',n:'Mi',short:'Tempo 8K',title:'Carrera tempo — 8 km',desc:'2 km calentamiento + 5 km tempo (6:00–6:10 min/km) + 1 km enfriamiento. El último tempo de alta intensidad del plan.',dist:'8 km',pace:'6:00–6:10 en tempo',zona:'Z4',tip:'Este tempo es el último entrenamiento de alta intensidad antes del tapering. Deja todo, pero escucha tu cuerpo.'},
     {t:'rest',n:'Ju',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:''},
-    {t:'easy',n:'Vi',short:'Fácil 5K',title:'Rodaje fácil — 5 km',desc:'5 km suaves. En 10 días cruzas la meta.',dist:'5 km',pace:'7:30–8:00',zona:'Z1–Z2',tip:'¡Ya casi!'},
+    {t:'easy',n:'Vi',short:'Ritmo 10K',title:'Rodaje a ritmo — 10 km',desc:'2 km calentamiento + 6 km a ritmo objetivo (6:15–6:20 min/km) + 2 km enfriamiento. Igual que la semana pasada. Hoy debe sentirse más fácil.',dist:'10 km',pace:'6:15–6:20 en medio',zona:'Z3–Z4',tip:'Si este viernes se siente más fácil que el viernes pasado, el entrenamiento funcionó. Confía en ese dato.'},
+    {t:'rest',n:'Sá',short:'Descanso',title:'Descanso antes de tirada',desc:'Prepara gel × 2. Come bien.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'long',n:'Do',short:'Larga 19K',title:'Tirada larga — 19 km ⭐',desc:'La última tirada larga de alto volumen. 19 km a ritmo Z2 (8:00–8:30). Gel al km 8 y km 15. Después de hoy, el volumen baja progresivamente hasta la carrera. Este es el último gran esfuerzo.',dist:'19 km',pace:'8:00–8:30',zona:'Z2',tip:'Al terminar estos 19 km, puedes decirte: "El entrenamiento duro terminó. Ahora voy a descansar hasta el 13 de julio." Y será verdad.'},
+  ]},
+  // ── SEM 10 ── Recuperación 3
+  {label:'Sem 10 · 16–22 jun · Recuperación 🌸',days:[
+    {t:'easy',n:'Lu',short:'Fácil 5K',title:'Rodaje fácil — 5 km',desc:'Semana de recuperación antes del tapering final. El cuerpo necesita asimilar todo el trabajo de las últimas semanas.',dist:'5 km',pace:'8:30',zona:'Z1–Z2',tip:'3 semanas para la carrera. Solo te queda descansar, mantener y llegar fresca al 13 de julio.'},
+    {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'easy',n:'Mi',short:'Trote 4K',title:'Trote suave — 4 km',desc:'4 km muy suaves. Mantener las piernas activas sin estresar el cuerpo.',dist:'4 km',pace:'9:00',zona:'Z1',tip:''},
+    {t:'rest',n:'Ju',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'easy',n:'Vi',short:'Fácil 5K',title:'Rodaje fácil — 5 km',desc:'5 km suaves.',dist:'5 km',pace:'8:30',zona:'Z2',tip:''},
+    {t:'rest',n:'Sá',short:'Descanso',title:'Día de descanso',desc:'Descansa.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'long',n:'Do',short:'12K suave',title:'Tirada — 12 km',desc:'Solo 12 km. Muy cómodo. La tirada larga más corta en semanas — y así debe ser. Tu cuerpo está acumulando energía para el 13 de julio.',dist:'12 km',pace:'8:00–8:30',zona:'Z2',tip:'Estos 12 km se sienten como calentar. Eso es buena señal. El tapering está funcionando.'},
+  ]},
+  // ── SEM 11 ── Reducción
+  {label:'Sem 11 · 23–29 jun · Reducción',days:[
+    {t:'easy',n:'Lu',short:'Fácil 6K',title:'Rodaje fácil — 6 km',desc:'6 km muy suaves. El volumen sigue bajando. Cada día de descanso adiciona potencia para el 13 de julio.',dist:'6 km',pace:'8:00–8:30',zona:'Z2',tip:'2 semanas. El trabajo está hecho. Todo lo que corres ahora es para mantener el motor caliente, no para mejorar más.'},
+    {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'easy',n:'Mi',short:'Ritmo 6K',title:'Rodaje a ritmo — 6 km',desc:'1 km calentamiento + 4 km a ritmo objetivo (6:25 min/km) + 1 km enfriamiento. Mantén el ritmo en las piernas sin fatigarte.',dist:'6 km',pace:'6:25 en medio',zona:'Z3–Z4',tip:'Esta sesión es para recordarle a tu cuerpo el ritmo de carrera. No para mejorar. 4 km es suficiente.'},
+    {t:'rest',n:'Ju',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'easy',n:'Vi',short:'Fácil 5K',title:'Rodaje fácil — 5 km',desc:'5 km muy suaves. ¡14 días para la carrera!',dist:'5 km',pace:'8:00–8:30',zona:'Z1–Z2',tip:'Empieza a revisar la logística: ¿dónde es la largada? ¿A qué hora llegar? ¿Qué vas a desayunar? ¡Ya casi!'},
+    {t:'rest',n:'Sá',short:'Descanso',title:'Día de descanso',desc:'Descansa.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'long',n:'Do',short:'16K suave',title:'Tirada — 16 km',desc:'16 km muy suaves (8:00–8:30). La última tirada de cierta longitud antes de la carrera. Disfrútala. Tus piernas saben exactamente qué hacer.',dist:'16 km',pace:'8:00–8:30',zona:'Z2',tip:'Después de estos 16 km, solo tienes carreras cortas hasta el 13 de julio. El entrenamiento terminó. Ahora es tapering.'},
+  ]},
+  // ── SEM 12 ── Tapering activo
+  {label:'Sem 12 · 30 jun–6 jul · Tapering 🌸',days:[
+    {t:'easy',n:'Lu',short:'Fácil 6K',title:'Rodaje fácil — 6 km',desc:'6 km muy suaves. Semana de tapering — el volumen baja significativamente. Es normal sentir que "no estás haciendo suficiente". Estás acumulando energía.',dist:'6 km',pace:'8:00–8:30',zona:'Z2',tip:'La ansiedad del tapering es real y normal. "Debería correr más." No. Confía en las 10 semanas de trabajo.'},
+    {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'easy',n:'Mi',short:'Ritmo 5K',title:'Rodaje a ritmo — 5 km',desc:'1 km calentamiento + 3 km a ritmo objetivo (6:25 min/km) + 1 km enfriamiento. Muy corto, solo para mantener la sensación de ritmo.',dist:'5 km',pace:'6:25 en medio',zona:'Z3–Z4',tip:'Tu cuerpo está listo. Este miércoles es el último entrenamiento de calidad. El resto es descanso y activación.'},
+    {t:'rest',n:'Ju',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'easy',n:'Vi',short:'Fácil 4K',title:'Rodaje fácil — 4 km',desc:'4 km muy suaves. En 9 días es la carrera. Mantén las piernas activas, nada más.',dist:'4 km',pace:'8:30',zona:'Z1',tip:'Revisa tu lista de carrera: número de corredor, tenis, medias, reloj cargado, geles, ropa de cambio.'},
     {t:'rest',n:'Sá',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:''},
-    {t:'long',n:'Do',short:'10K suave',title:'Rodaje suave — 10 km',desc:'10 km muy suaves. Mantén las piernas activas sin fatigarlas.',dist:'10 km',pace:'7:30–8:00',zona:'Z1–Z2',tip:'Nada puede hacerte más rápida ahora. Solo el descanso y la nutrición.'},
+    {t:'long',n:'Do',short:'10K suave',title:'Rodaje suave — 10 km',desc:'10 km muy cómodos. Esta es la última tirada de longitud. Después de hoy, solo trotes cortos y el día de la carrera. Nada puede mejorar tu forma física esta semana — solo el descanso cuenta.',dist:'10 km',pace:'8:30–9:00',zona:'Z1–Z2',tip:'Estos 10 km fáciles serán los últimos antes del 13 de julio. Corre con gratitud por cada km entrenado.'},
   ]},
-  {label:'Sem 13 · Tapering 🌸',days:[
-    {t:'easy',n:'Lu',short:'Fácil 4K',title:'Rodaje suave — 4 km',desc:'4 km muy suaves. Todo el trabajo ya está hecho.',dist:'4 km',pace:'7:30–8:00',zona:'Z1',tip:'Confía en el entrenamiento que ya hiciste.'},
-    {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'Relájate y prepara mentalmente el día de la carrera.',dist:'—',pace:'—',zona:'—',tip:''},
-    {t:'easy',n:'Mi',short:'Trote 3K',title:'Trote activación — 3 km',desc:'3 km muy suaves con 4–5 aceleraciones cortas de 20 seg al final.',dist:'3 km',pace:'7:30+',zona:'Z1',tip:'Bebe mucha agua estos días.'},
-    {t:'rest',n:'Ju',short:'Descanso',title:'Prepara todo para el domingo',desc:'Prepara: ropa, número de corredor, hidratación, desayuno.',dist:'—',pace:'—',zona:'—',tip:'Prepara todo la noche anterior.'},
-    {t:'rest',n:'Vi',short:'Descanso',title:'Descanso total',desc:'Descanso total. Camina un poco si quieres. Duerme temprano.',dist:'—',pace:'—',zona:'—',tip:'Come pasta o arroz en la cena.'},
-    {t:'rest',n:'Sá',short:'Descanso',title:'Día antes de la carrera',desc:'Descansa. Come bien. Revisa tu equipo: tenis, ropa, número, reloj, gel.',dist:'—',pace:'—',zona:'—',tip:'Los nervios son normales — significan que importa.'},
-    {t:'race',n:'Do',short:'¡CARRERA! 21K',title:'¡Día de la carrera! 🏁',desc:'¡Hoy es el día! Primeros 5 km más lento (6:30–6:40). Del km 5 al 15 mantén tu ritmo (6:20–6:25). Últimos 6 km: deja todo. Al cruzar la meta, llora, celebra — te lo ganaste.',dist:'21.1 km',pace:'6:20–6:30',zona:'Z3–Z4',tip:'En los km 16–19 recuerda todos los domingos de tirada larga. ¡Ese esfuerzo te trajo aquí! 🩷'},
+  // ── SEM 13 ── Semana de carrera
+  {label:'Sem 13 · 7–13 jul · Semana de carrera 🏁',days:[
+    {t:'easy',n:'Lu',short:'Trote 4K',title:'Trote suave — 4 km',desc:'4 km muy suaves con 4–5 aceleraciones de 20 seg al final para mantener las piernas despiertas. Solo eso.',dist:'4 km',pace:'8:30–9:00',zona:'Z1',tip:'Esta semana: come bien, duerme bien, hidratación constante. Eso es todo el entrenamiento que te queda.'},
+    {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'Descanso. Prepara mentalmente la estrategia de carrera: primeros 5 km conservadora, km 5–15 ritmo objetivo, últimos 6 km todo lo que tengas.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'easy',n:'Mi',short:'Activ. 3K',title:'Activación — 3 km',desc:'3 km muy suaves con 4 aceleraciones de 20 seg al final. Solo para mantener las piernas activas y recordarle al cuerpo que viene la carrera.',dist:'3 km',pace:'8:30+',zona:'Z1',tip:'Bebe agua extra hoy y mañana. La hidratación del día de la carrera empieza 48 horas antes.'},
+    {t:'rest',n:'Ju',short:'Prepara todo',title:'Preparación total — sin correr',desc:'No corras. Prepara todo para el domingo: ropa de carrera, tenis (los que usaste en las tiradas largas, NO tenis nuevos), número de corredor, reloj Garmin cargado, geles × 2, ropa de cambio para después, plan de desayuno.',dist:'—',pace:'—',zona:'—',tip:'Los nervios de hoy son la emoción que te va a llevar al km 21. Siéntelos — son buenos.'},
+    {t:'rest',n:'Vi',short:'Descanso total',title:'Descanso total — 2 días para la carrera',desc:'Descanso total. Camina si quieres, nada de correr. Duerme temprano. Cena ligera pero con carbohidratos: pasta, arroz o avena.',dist:'—',pace:'—',zona:'—',tip:'Si tienes problemas para dormir por los nervios, es completamente normal. Una mala noche de sueño no afecta el rendimiento — lo que importa es que hayas dormido bien jueves.'},
+    {t:'rest',n:'Sá',short:'Descanso 🌙',title:'Día antes de la carrera — descanso total',desc:'Descansa. Come bien: desayuno y comida normales, cena ligera con carbohidratos (pasta o arroz). Revisa de nuevo tu equipo. Conoce la ruta de la carrera. Prepara tu desayuno del domingo. Duerme temprano.',dist:'—',pace:'—',zona:'—',tip:'Los nervios son señal de que importa. Canalízalos hacia emoción: mañana cruzas la meta de un medio maratón. 🩷'},
+    {t:'race',n:'Do',short:'¡CARRERA!\n21.1K 🏁',title:'¡Día de la carrera! 🏁 — 13 de julio 2026',desc:'¡Hoy es el día para el que entrenaste 13 semanas! ESTRATEGIA: Km 1–5 sal a 6:35–6:45, más lenta de lo que sientes que puedes. Km 5–15 mantén ritmo objetivo 6:20–6:25, constante y controlada. Km 15–18 sostén aunque duela, el entrenamiento te protege aquí. Km 18–21.1 deja absolutamente todo. Al cruzar la meta: llora, grita, celebra — te lo ganaste con cada domingo de tirada larga.',dist:'21.1 km',pace:'6:20–6:30 objetivo',zona:'Z3–Z4',tip:'En el km 17–18 tu cerebro va a decir "no puedo más". Recuerda los 19 km del parque, los domingos de madrugada, cada entrenamiento. ESO te trajo aquí. 13 semanas de trabajo = 2 horas de gloria. 🩷🏁'},
   ]},
 ];
 function paceToSecs(p){if(!p||!String(p).includes(':'))return 0;const[m,s]=String(p).split(':').map(Number);return m*60+(s||0)}
@@ -898,92 +958,201 @@ function renderProgressBar(){
   }
 }
 
-// ===== PWA: Generate icon + manifest dynamically =====
+// ===== PWA: Generate PREMIUM icon + manifest dynamically =====
 (function(){
-  // Generate beautiful 512x512 icon
+  const S = 512;
   const canvas = document.createElement('canvas');
-  canvas.width = 512; canvas.height = 512;
+  canvas.width = S; canvas.height = S;
   const ctx = canvas.getContext('2d');
 
-  // Rounded rect background
+  // ── 1. Clip to rounded rect (iOS style radius = S*0.2224)
+  const R = 114;
   ctx.beginPath();
-  ctx.roundRect(0,0,512,512,112);
+  ctx.moveTo(R,0); ctx.lineTo(S-R,0);
+  ctx.quadraticCurveTo(S,0,S,R);
+  ctx.lineTo(S,S-R); ctx.quadraticCurveTo(S,S,S-R,S);
+  ctx.lineTo(R,S); ctx.quadraticCurveTo(0,S,0,S-R);
+  ctx.lineTo(0,R); ctx.quadraticCurveTo(0,0,R,0);
   ctx.closePath();
-  const bg = ctx.createLinearGradient(0,0,512,512);
-  bg.addColorStop(0,'#F43F7A');
-  bg.addColorStop(0.5,'#9B2C6E');
-  bg.addColorStop(1,'#7C3AED');
-  ctx.fillStyle = bg;
-  ctx.fill();
+  ctx.save(); ctx.clip();
 
-  // Subtle inner glow circle
-  const glow = ctx.createRadialGradient(256,200,20,256,200,280);
-  glow.addColorStop(0,'rgba(255,255,255,0.18)');
-  glow.addColorStop(1,'rgba(255,255,255,0)');
-  ctx.fillStyle = glow;
+  // ── 2. Rich 3-stop gradient background (deep magenta → violet → dark plum)
+  const bgGrad = ctx.createLinearGradient(0,0,S,S);
+  bgGrad.addColorStop(0,'#FF2D78');
+  bgGrad.addColorStop(0.48,'#C026A8');
+  bgGrad.addColorStop(1,'#6D28D9');
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0,0,S,S);
+
+  // ── 3. Soft radial light blob top-left (depth / Canva mesh effect)
+  const blob1 = ctx.createRadialGradient(80,80,10,80,80,220);
+  blob1.addColorStop(0,'rgba(255,180,220,0.35)');
+  blob1.addColorStop(1,'rgba(255,180,220,0)');
+  ctx.fillStyle = blob1; ctx.fillRect(0,0,S,S);
+
+  // ── 4. Soft radial light blob bottom-right
+  const blob2 = ctx.createRadialGradient(440,430,10,440,430,200);
+  blob2.addColorStop(0,'rgba(180,100,255,0.4)');
+  blob2.addColorStop(1,'rgba(180,100,255,0)');
+  ctx.fillStyle = blob2; ctx.fillRect(0,0,S,S);
+
+  // ── 5. Decorative ring (top center, translucent)
   ctx.beginPath();
-  ctx.roundRect(0,0,512,512,112);
+  ctx.arc(256,90,58,0,Math.PI*2);
+  ctx.strokeStyle='rgba(255,255,255,0.12)';
+  ctx.lineWidth=22; ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(256,90,88,0,Math.PI*2);
+  ctx.strokeStyle='rgba(255,255,255,0.07)';
+  ctx.lineWidth=14; ctx.stroke();
+
+  // ── 6. Finishing line tape (horizontal banner, bottom strip)
+  const tapeY = 390;
+  ctx.fillStyle='rgba(255,255,255,0.12)';
+  ctx.fillRect(0,tapeY,S,38);
+  // checkered pattern on tape
+  const sq=19;
+  for(let col=0;col<S/sq;col++){
+    if(col%2===0){
+      ctx.fillStyle='rgba(255,255,255,0.18)';
+      ctx.fillRect(col*sq,tapeY,sq,sq);
+    }
+  }
+  for(let col=0;col<S/sq;col++){
+    if(col%2===1){
+      ctx.fillStyle='rgba(255,255,255,0.18)';
+      ctx.fillRect(col*sq,tapeY+sq,sq,sq);
+    }
+  }
+
+  // ── 7. Running woman silhouette — larger, centered, elegant
+  ctx.save();
+  ctx.translate(150, 60);
+  ctx.scale(1.08,1.08);
+  ctx.fillStyle='rgba(255,255,255,0.97)';
+
+  // Ponytail
+  ctx.beginPath();
+  ctx.moveTo(122,48);
+  ctx.bezierCurveTo(138,30,160,22,170,42);
+  ctx.bezierCurveTo(162,52,148,58,138,62);
   ctx.fill();
 
-  // Running figure (white silhouette)
-  ctx.fillStyle = 'rgba(255,255,255,0.95)';
   // Head
   ctx.beginPath();
-  ctx.arc(256, 118, 38, 0, Math.PI*2);
-  ctx.fill();
-  // Body
-  ctx.beginPath();
-  ctx.moveTo(256,156);
-  ctx.bezierCurveTo(220,180,215,220,218,265);
-  ctx.bezierCurveTo(220,280,240,285,256,278);
-  ctx.bezierCurveTo(272,285,292,280,294,265);
-  ctx.bezierCurveTo(297,220,292,180,256,156);
-  ctx.fill();
-  // Left arm (pumped forward)
-  ctx.beginPath();
-  ctx.moveTo(230,175);
-  ctx.bezierCurveTo(200,185,178,200,165,228);
-  ctx.bezierCurveTo(162,236,168,244,176,240);
-  ctx.bezierCurveTo(190,215,208,202,232,195);
-  ctx.fill();
-  // Right arm (back)
-  ctx.beginPath();
-  ctx.moveTo(282,175);
-  ctx.bezierCurveTo(312,185,334,198,348,222);
-  ctx.bezierCurveTo(352,230,346,238,338,234);
-  ctx.bezierCurveTo(324,212,304,200,278,194);
-  ctx.fill();
-  // Left leg (forward stride)
-  ctx.beginPath();
-  ctx.moveTo(244,270);
-  ctx.bezierCurveTo(236,300,228,332,218,358);
-  ctx.bezierCurveTo(210,378,196,390,184,400);
-  ctx.bezierCurveTo(176,408,178,420,188,418);
-  ctx.bezierCurveTo(204,406,220,392,232,368);
-  ctx.bezierCurveTo(246,340,254,308,258,278);
-  ctx.fill();
-  // Right leg (back stride)
-  ctx.beginPath();
-  ctx.moveTo(268,270);
-  ctx.bezierCurveTo(276,298,282,326,290,350);
-  ctx.bezierCurveTo(298,372,312,386,326,396);
-  ctx.bezierCurveTo(334,402,336,414,326,414);
-  ctx.bezierCurveTo(310,400,294,384,284,358);
-  ctx.bezierCurveTo(272,330,264,300,254,272);
+  ctx.arc(108,68,32,0,Math.PI*2);
   ctx.fill();
 
-  // Small heart accent bottom right
-  ctx.fillStyle = 'rgba(255,255,255,0.9)';
-  ctx.font = 'bold 72px serif';
-  ctx.textAlign = 'right';
-  ctx.textBaseline = 'bottom';
-  ctx.fillText('🩷', 478, 484);
+  // Torso — leaning forward athletically
+  ctx.beginPath();
+  ctx.moveTo(108,100);
+  ctx.bezierCurveTo(85,120,78,158,82,195);
+  ctx.bezierCurveTo(84,208,100,212,112,206);
+  ctx.bezierCurveTo(124,200,136,195,140,178);
+  ctx.bezierCurveTo(145,155,138,118,108,100);
+  ctx.fill();
+
+  // Left arm — forward pump (bent at elbow)
+  ctx.beginPath();
+  ctx.moveTo(92,118);
+  ctx.bezierCurveTo(70,128,50,138,38,120);
+  ctx.bezierCurveTo(34,112,40,104,52,110);
+  ctx.bezierCurveTo(62,116,76,122,88,128);
+  ctx.fill();
+
+  // Right arm — back, bent up
+  ctx.beginPath();
+  ctx.moveTo(130,118);
+  ctx.bezierCurveTo(152,110,172,100,182,118);
+  ctx.bezierCurveTo(186,128,178,138,166,132);
+  ctx.bezierCurveTo(154,126,140,120,128,126);
+  ctx.fill();
+
+  // Left leg — forward stride, knee lifted
+  ctx.beginPath();
+  ctx.moveTo(100,205);
+  ctx.bezierCurveTo(90,230,76,255,58,270);
+  ctx.bezierCurveTo(48,280,36,285,32,278);
+  ctx.bezierCurveTo(28,270,36,260,50,252);
+  ctx.bezierCurveTo(66,242,78,220,88,200);
+  ctx.fill();
+  // Foot left
+  ctx.beginPath();
+  ctx.ellipse(26,280,14,7,0.4,0,Math.PI*2);
+  ctx.fill();
+
+  // Right leg — push-off behind
+  ctx.beginPath();
+  ctx.moveTo(120,205);
+  ctx.bezierCurveTo(128,232,138,260,148,285);
+  ctx.bezierCurveTo(154,300,162,312,154,320);
+  ctx.bezierCurveTo(146,328,136,318,132,302);
+  ctx.bezierCurveTo(126,282,116,252,108,210);
+  ctx.fill();
+  // Foot right
+  ctx.beginPath();
+  ctx.ellipse(150,322,14,7,-0.3,0,Math.PI*2);
+  ctx.fill();
+
+  ctx.restore();
+
+  // ── 8. Brand text "Barbie" (italic, white)
+  ctx.save();
+  ctx.font = 'italic bold 78px Georgia, serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.97)';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'alphabetic';
+  ctx.shadowColor = 'rgba(0,0,0,0.25)';
+  ctx.shadowBlur = 8;
+  ctx.fillText('Barbie', 256, 352);
+  ctx.restore();
+
+  // ── 9. "RUNNER" small caps below
+  ctx.save();
+  ctx.font = 'bold 36px Arial, sans-serif';
+  ctx.fillStyle = 'rgba(255,220,240,0.92)';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'alphabetic';
+  ctx.letterSpacing = '6px';
+  ctx.fillText('R U N N E R', 256, 392);
+  ctx.restore();
+
+  // ── 10. Small hearts scattered (3 dots)
+  function drawHeart(cx,cy,r,alpha){
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.moveTo(cx, cy+r*0.3);
+    ctx.bezierCurveTo(cx,cy-r,cx-r*2,cy-r,cx-r*2,cy+r*0.2);
+    ctx.bezierCurveTo(cx-r*2,cy+r,cx,cy+r*1.8,cx,cy+r*1.8);
+    ctx.bezierCurveTo(cx,cy+r*1.8,cx+r*2,cy+r,cx+r*2,cy+r*0.2);
+    ctx.bezierCurveTo(cx+r*2,cy-r,cx,cy-r,cx,cy+r*0.3);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+  drawHeart(58, 340, 9, 0.6);
+  drawHeart(454, 180, 11, 0.5);
+  drawHeart(420, 340, 7, 0.4);
+  drawHeart(90, 200, 6, 0.35);
+
+  // ── 11. Subtle bottom vignette
+  const vig = ctx.createLinearGradient(0,320,0,S);
+  vig.addColorStop(0,'rgba(0,0,0,0)');
+  vig.addColorStop(1,'rgba(0,0,0,0.28)');
+  ctx.fillStyle = vig; ctx.fillRect(0,320,S,S-320);
+
+  ctx.restore(); // end clip
 
   const iconUrl = canvas.toDataURL('image/png');
 
   // Set apple touch icon
   const link = document.getElementById('pwa-icon-link');
   if(link) link.href = iconUrl;
+  // Set banner icon preview
+  const ibImg = document.getElementById('ib-icon-img');
+  if(ibImg) ibImg.src = iconUrl;
 
   // Generate manifest blob
   const manifest = {
@@ -1189,7 +1358,7 @@ window.addEventListener('load',()=>{
 
 <!-- PWA Install Banner -->
 <div id="install-banner">
-  <div class="ib-icon">🩷</div>
+  <img id="ib-icon-img" style="width:48px;height:48px;border-radius:12px;flex-shrink:0;box-shadow:0 4px 12px rgba(244,63,122,0.3)" src="" alt="Barbie Runner icon">
   <div class="ib-text">
     <div class="ib-title">Agregar a pantalla de inicio</div>
     <div class="ib-sub">Úsala como app sin abrir Safari</div>
