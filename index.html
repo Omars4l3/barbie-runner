@@ -356,22 +356,96 @@ body{padding-bottom:calc(90px + env(safe-area-inset-bottom))}
 }
 /* ===== HIDE OLD TOP NAV ===== */
 .sticky-nav{display:none}
+
+/* ===== AVATAR ===== */
+.avatar-ring{width:48px;height:48px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,#F43F7A,#C084FC);padding:2.5px;box-shadow:0 4px 14px rgba(244,63,122,0.4);animation:avatarPulse 3s ease-in-out infinite}
+.avatar-inner{width:100%;height:100%;border-radius:50%;background:var(--white);display:flex;align-items:center;justify-content:center;font-size:22px}
+@keyframes avatarPulse{0%,100%{box-shadow:0 4px 14px rgba(244,63,122,0.4)}50%{box-shadow:0 4px 22px rgba(244,63,122,0.7)}}
+.header-greeting{font-size:11px;color:var(--text-soft);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:1px}
+
+/* ===== PULSE PILL ===== */
+.pulse-pill{position:relative}
+.pulse-pill::after{content:'';position:absolute;inset:-3px;border-radius:999px;background:linear-gradient(135deg,#F43F7A,#C084FC);opacity:0;animation:pillPulse 2.5s ease-in-out infinite;z-index:-1}
+@keyframes pillPulse{0%,100%{opacity:0;transform:scale(1)}50%{opacity:.35;transform:scale(1.08)}}
+
+/* ===== PREMIUM COUNTDOWN ===== */
+.premium-countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:16px}
+.premium-countdown .cd-item{background:var(--white);border-radius:14px;padding:12px 4px;text-align:center;border:1px solid var(--border);box-shadow:var(--shadow);transition:transform .2s;position:relative;overflow:hidden}
+.premium-countdown .cd-item::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#F43F7A,#C084FC)}
+.premium-countdown .cd-item:active{transform:scale(.95)}
+
+/* ===== TOAST ===== */
+#toast-container{position:fixed;top:16px;left:12px;right:12px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:16px;font-size:13px;font-weight:700;pointer-events:all;animation:toastIn .35s cubic-bezier(.34,1.3,.64,1) both;box-shadow:0 8px 24px rgba(0,0,0,0.12);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.toast.success{background:rgba(236,253,245,0.96);color:#065F46;border:1px solid #6EE7B7}
+.toast.error{background:rgba(254,242,242,0.96);color:#991B1B;border:1px solid #FCA5A5}
+.toast.info{background:rgba(255,247,250,0.96);color:var(--plum);border:1px solid var(--rose-soft)}
+.toast.leaving{animation:toastOut .3s ease forwards}
+[data-theme='dark'] .toast.success{background:rgba(6,78,59,0.92);color:#6EE7B7}
+[data-theme='dark'] .toast.error{background:rgba(127,29,29,0.92);color:#FCA5A5}
+[data-theme='dark'] .toast.info{background:rgba(45,27,46,0.96);color:var(--rose-soft)}
+@keyframes toastIn{from{opacity:0;transform:translateY(-16px) scale(.95)}to{opacity:1;transform:none}}
+@keyframes toastOut{from{opacity:1}to{opacity:0;transform:translateY(-8px) scale(.95)}}
+
+/* ===== SKELETON ===== */
+.skeleton{background:linear-gradient(90deg,var(--rose-pale) 25%,var(--rose-ultra) 50%,var(--rose-pale) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:8px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skeleton-card{height:80px;border-radius:var(--radius);margin-bottom:10px}
+
+/* ===== SECTION TITLE ===== */
+.s-title{font-size:11px;font-weight:800;color:var(--text-soft);text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.s-title::before{content:'';width:3px;height:14px;background:linear-gradient(#F43F7A,#C084FC);border-radius:99px;flex-shrink:0}
+.s-title::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ===== CARDS PREMIUM ===== */
+.metric-card{border-radius:var(--radius);padding:18px 16px;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.metric-card:active{transform:scale(.97)}
+.run-item{border-radius:var(--radius);padding:16px;margin-bottom:8px;display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;transition:transform .18s;position:relative;overflow:hidden}
+.run-item:active{transform:scale(.98)}
+.run-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#F43F7A,#C084FC);border-radius:3px 0 0 3px}
+
+/* ===== MOTI UPGRADE ===== */
+.moti::before{content:'✨';position:absolute;font-size:80px;top:-10px;right:-10px;opacity:.1;animation:floatIcon 4s ease-in-out infinite}
+@keyframes floatIcon{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-8px) rotate(10deg)}}
+
+/* ===== CONFETTI ===== */
+#confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:9998}
+
+/* ===== PAGE TRANSITION ===== */
+.tab-pane.active{animation:pageIn .3s cubic-bezier(.34,1.1,.64,1) both}
+@keyframes pageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ===== TODAY HIGHLIGHT IN PLAN ===== */
+.plan-day.today-highlight{outline:2.5px solid #F43F7A;outline-offset:2px;animation:todayGlow 2s ease-in-out infinite}
+@keyframes todayGlow{0%,100%{outline-color:#F43F7A;box-shadow:0 0 0 0 rgba(244,63,122,0)}50%{outline-color:#C084FC;box-shadow:0 0 8px 2px rgba(244,63,122,0.25)}}
+
+/* ===== HAPTIC ===== */
+@keyframes hapticPop{0%{transform:scale(1)}40%{transform:scale(.92)}100%{transform:scale(1)}}
+.haptic{animation:hapticPop .18s cubic-bezier(.34,1.5,.64,1)}
+
+/* ===== DARK MODE EXTRAS ===== */
+[data-theme='dark'] .premium-countdown .cd-item{background:var(--white);border-color:var(--border)}
+[data-theme='dark'] .avatar-inner{background:var(--white)}
+
 </style>
 </head>
 <body>
-<div class="sync-bar">
-  <div class="sync-dot loading" id="sync-dot"></div>
-  <span id="sync-text">Conectando con Google Sheets...</span>
-</div>
+
 <div class="header">
   <div class="header-top">
-    <div>
-      <div class="header-name">Barbie <span>Runner</span> 🩷</div>
-      <div class="header-sub">Medio Maratón · 13 de julio 2026</div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="avatar-ring"><div class="avatar-inner">🏃‍♀️</div></div>
+      <div>
+        <div class="header-greeting" id="header-greeting">Hola 🩷</div>
+        <div class="header-name">Barbie <span>Runner</span> 🩷</div>
+      </div>
     </div>
-    <div style="display:flex;align-items:center;gap:8px"><button class="dark-toggle" id="dark-toggle" onclick="toggleDark()">🌙</button><div class="race-pill">🏁 13 Jul</div></div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button class="dark-toggle" id="dark-toggle" onclick="toggleDark()">🌙</button>
+      <div class="race-pill pulse-pill">🏁 13 Jul</div>
+    </div>
   </div>
-  <div class="countdown">
+  <div class="countdown premium-countdown">
     <div class="cd-item"><div class="cd-num" id="cd-weeks">—</div><div class="cd-label">Semanas</div></div>
     <div class="cd-item"><div class="cd-num" id="cd-days">—</div><div class="cd-label">Días</div></div>
     <div class="cd-item"><div class="cd-num" id="cd-runs">—</div><div class="cd-label">Carreras</div></div>
@@ -383,11 +457,14 @@ body{padding-bottom:calc(90px + env(safe-area-inset-bottom))}
   <div class="tab-pane active" id="pane-resumen">
     <div class="loading-screen" id="loading-resumen"><div class="loading-spinner"></div><div class="loading-text">Cargando tus carreras... 🩷</div></div>
     <div id="resumen-content" style="display:none">
-      <div class="today-card animate-scale" id="today-card" onclick="goToPlan()">
+      <div class="today-card animate-scale" id="today-card">
   <div class="today-label">💪 Entrenamiento de hoy</div>
   <div class="today-title" id="today-title">Cargando...</div>
   <div class="today-meta" id="today-meta"></div>
-  <div class="today-arrow">›</div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+    <button onclick="goToPlan()" style="background:rgba(255,255,255,0.2);border:none;color:white;padding:7px 14px;border-radius:999px;font-size:12px;font-weight:800;cursor:pointer;backdrop-filter:blur(4px);font-family:inherit">Ver plan →</button>
+    <button onclick="markWorkoutDone();haptic(this)" style="background:rgba(255,255,255,0.95);border:none;color:#F43F7A;padding:7px 14px;border-radius:999px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit">✅ ¡Listo!</button>
+  </div>
 </div>
 <div class="race-progress animate-up glass-card">
   <div style="display:flex;justify-content:space-between;align-items:center">
@@ -586,8 +663,8 @@ async function loadFromSheets(){
   }catch(e){setSyncError('Sin conexión a Sheets');runs=getFallback()}
   renderAll()
 }
-function setSyncOk(m){document.getElementById('sync-dot').className='sync-dot';document.getElementById('sync-text').textContent=m}
-function setSyncError(m){document.getElementById('sync-dot').className='sync-dot error';document.getElementById('sync-text').textContent=m}
+function setSyncOk(m){showToast(m,'success')}
+function setSyncError(m){showToast(m,'error')}
 function getFallback(){return[{date:'2026-04-10',name:'Emiliano Zapata',dist:6,pace:'6:54',hr:155},{date:'2026-04-06',name:'Rodaje 11K',dist:11.01,pace:'6:47',hr:154},{date:'2026-03-21',name:'Boca del Río',dist:10.14,pace:'5:29',hr:183},{date:'2026-03-15',name:'Fondito 15K',dist:15.01,pace:'6:29',hr:163}]}
 async function saveToSheets(payload){const res=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify(payload),redirect:'follow'});return await res.json()}
 function renderAll(){
@@ -966,6 +1043,118 @@ self.addEventListener('fetch', e => {
   const blob = new Blob([swCode], {type:'application/javascript'});
   navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
 }
+
+// ===== GREETING =====
+(function(){
+  const h=new Date().getHours();
+  const g=h<12?'Buenos días ☀️':h<18?'Buenas tardes 🌤':'Buenas noches 🌙';
+  const el=document.getElementById('header-greeting');
+  if(el)el.textContent=g;
+})();
+
+// ===== TOAST =====
+function showToast(msg,type='info',duration=3500){
+  const icons={success:'✅',error:'❌',info:'🩷'};
+  const c=document.getElementById('toast-container');
+  if(!c)return;
+  const t=document.createElement('div');
+  t.className='toast '+type;
+  t.innerHTML=`<span style="font-size:16px">${icons[type]||'🩷'}</span><span>${msg}</span>`;
+  c.appendChild(t);
+  setTimeout(()=>{t.classList.add('leaving');setTimeout(()=>t.remove(),350);},duration);
+}
+
+// ===== CONFETTI =====
+function launchConfetti(){
+  const canvas=document.getElementById('confetti-canvas');
+  if(!canvas)return;
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  const ctx=canvas.getContext('2d');
+  const cols=['#F43F7A','#C084FC','#FCD34D','#6EE7B7','#FB923C','#60A5FA'];
+  const pieces=Array.from({length:130},()=>({
+    x:Math.random()*canvas.width,y:-10-Math.random()*80,
+    r:3+Math.random()*6,d:1.5+Math.random()*2.5,
+    color:cols[Math.floor(Math.random()*cols.length)],
+    tilt:Math.random()*10-5,swing:0,
+    swingSpeed:0.03+Math.random()*0.04
+  }));
+  let ttl=200;
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pieces.forEach(p=>{
+      p.y+=p.d;p.swing+=p.swingSpeed;p.x+=Math.sin(p.swing)*1.5;
+      ctx.beginPath();ctx.fillStyle=p.color;
+      ctx.ellipse(p.x,p.y,p.r,p.r*0.5,p.tilt,0,Math.PI*2);ctx.fill();
+    });
+    if(--ttl>0)requestAnimationFrame(draw);
+    else ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+  draw();
+}
+
+// ===== HAPTIC =====
+function haptic(el){
+  if(navigator.vibrate)navigator.vibrate(10);
+  el.classList.remove('haptic');
+  void el.offsetWidth;
+  el.classList.add('haptic');
+}
+
+// ===== MARK WORKOUT DONE =====
+function markWorkoutDone(){
+  launchConfetti();
+  if(navigator.vibrate)navigator.vibrate([10,50,10]);
+  showToast('¡Entrenamiento completado! 🏅 Sigue así Barbie 🩷','success',4500);
+}
+
+// ===== HIGHLIGHT TODAY IN PLAN =====
+function highlightToday(){
+  const today=new Date();
+  const start=new Date('2026-04-14');
+  const diff=Math.floor((today-start)/(86400000));
+  const wIdx=Math.floor(diff/7);
+  const dMap={0:6,1:0,2:1,3:2,4:3,5:4,6:5};
+  const dIdx=dMap[today.getDay()];
+  document.querySelectorAll('.plan-day').forEach(d=>d.classList.remove('today-highlight'));
+  const weeks=document.querySelectorAll('.plan-week');
+  if(weeks[wIdx]){
+    const days=weeks[wIdx].querySelectorAll('.plan-day');
+    if(days[dIdx])days[dIdx].classList.add('today-highlight');
+  }
+}
+
+// ===== INTERCEPT STATUS CARDS → TOAST =====
+window.addEventListener('load',()=>{
+  document.querySelectorAll('.status-card').forEach(card=>{
+    new MutationObserver(()=>{
+      if(card.style.display!=='none'&&card.textContent.trim()){
+        const type=card.classList.contains('success')?'success':card.classList.contains('error')?'error':'info';
+        showToast(card.textContent.trim(),type);
+        card.style.display='none';
+      }
+    }).observe(card,{attributes:true,attributeFilter:['style']});
+  });
+
+  // Greeting
+  const h=new Date().getHours();
+  const el=document.getElementById('header-greeting');
+  if(el)el.textContent=h<12?'Buenos días ☀️':h<18?'Buenas tardes 🌤':'Buenas noches 🌙';
+
+  // Init pill position
+  setTimeout(()=>{
+    const btn=document.getElementById('bnav-resumen');
+    const pill=document.getElementById('bnav-pill');
+    const inner=document.getElementById('bnav-inner');
+    if(btn&&pill&&inner){
+      const br=btn.getBoundingClientRect(),ir=inner.getBoundingClientRect();
+      pill.style.transition='none';
+      pill.style.left=(br.left-ir.left+(br.width-52)/2)+'px';
+      setTimeout(()=>pill.style.transition='',50);
+    }
+    highlightToday();
+    showToast('Sincronizando con Google Sheets 📊','info',2500);
+  },400);
+});
 </script>
 
 <div class="bottom-nav" id="bottom-nav">
@@ -1012,5 +1201,8 @@ self.addEventListener('fetch', e => {
   </div>
   <button class="ib-close" onclick="dismissInstallBanner()">✕</button>
 </div>
+
+<div id="toast-container"></div>
+<canvas id="confetti-canvas"></canvas>
 </body>
 </html>
