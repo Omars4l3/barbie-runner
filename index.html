@@ -2,7 +2,19 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<!-- ===== PWA iOS / Android ===== -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Barbie Runner">
+<meta name="theme-color" content="#F43F7A">
+<meta name="description" content="Plan de entrenamiento Medio Maratón 13 julio 2026 🩷">
+
+<!-- Apple Touch Icons (generados con canvas inline) -->
+<link rel="apple-touch-icon" id="pwa-icon-link">
+<link rel="manifest" id="pwa-manifest-link">
+
 <title>Barbie Runner — Medio Maratón 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -263,8 +275,32 @@ body{font-family:'Nunito',sans-serif;background:var(--sand);color:var(--text);mi
 .sparkline{display:inline-block;vertical-align:middle}
 
 /* ===== BODY PADDING FOR BOTTOM NAV ===== */
-body{padding-bottom:80px}
+body{padding-bottom:calc(80px + env(safe-area-inset-bottom))}
 
+
+/* ===== PWA INSTALL BANNER ===== */
+#install-banner{
+  display:none;opacity:0;
+  position:fixed;bottom:72px;left:12px;right:12px;z-index:500;
+  background:var(--white);border:1px solid var(--border);
+  border-radius:20px;padding:14px 16px;
+  box-shadow:0 8px 32px rgba(244,63,122,0.2);
+  align-items:center;gap:12px;
+  transition:opacity .3s ease;
+  backdrop-filter:blur(12px);
+}
+#install-banner .ib-icon{font-size:32px;flex-shrink:0}
+#install-banner .ib-text{flex:1}
+#install-banner .ib-title{font-size:13px;font-weight:800;color:var(--text);margin-bottom:2px}
+#install-banner .ib-sub{font-size:11px;color:var(--text-soft);font-weight:600;line-height:1.4}
+#install-banner .ib-steps{display:flex;align-items:center;gap:4px;margin-top:6px;
+  font-size:11px;color:var(--rose);font-weight:700}
+#install-banner .ib-close{
+  background:var(--rose-pale);border:none;border-radius:50%;
+  width:28px;height:28px;font-size:14px;cursor:pointer;
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  color:var(--text-soft)
+}
 /* ===== HIDE OLD TOP NAV ===== */
 .sticky-nav{display:none}
 </style>
@@ -701,6 +737,89 @@ function renderProgressBar(){
     kmEl.textContent=Math.round(totalKm)+' km entrenados';
   }
 }
+
+// ===== PWA: Generate icon + manifest dynamically =====
+(function(){
+  // Generate 192x192 canvas icon
+  const canvas = document.createElement('canvas');
+  canvas.width = 192; canvas.height = 192;
+  const ctx = canvas.getContext('2d');
+  // Background gradient
+  const grad = ctx.createLinearGradient(0,0,192,192);
+  grad.addColorStop(0,'#F43F7A');
+  grad.addColorStop(1,'#C084FC');
+  ctx.fillStyle = grad;
+  ctx.roundRect(0,0,192,192,40);
+  ctx.fill();
+  // Emoji
+  ctx.font = '110px serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('🩷', 96, 96);
+  const iconUrl = canvas.toDataURL('image/png');
+
+  // Set apple touch icon
+  const link = document.getElementById('pwa-icon-link');
+  if(link) link.href = iconUrl;
+
+  // Generate manifest blob
+  const manifest = {
+    name: 'Barbie Runner 🩷',
+    short_name: 'Barbie Runner',
+    description: 'Plan Medio Maratón 13 julio 2026',
+    start_url: './',
+    display: 'standalone',
+    orientation: 'portrait',
+    background_color: '#FFF7FA',
+    theme_color: '#F43F7A',
+    icons: [
+      {src: iconUrl, sizes: '192x192', type: 'image/png'},
+      {src: iconUrl, sizes: '512x512', type: 'image/png'}
+    ]
+  };
+  const blob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
+  const manifestLink = document.getElementById('pwa-manifest-link');
+  if(manifestLink) manifestLink.href = URL.createObjectURL(blob);
+})();
+
+// ===== PWA Install Banner (iOS hint) =====
+function showInstallBanner(){
+  const isIOS = /iphone|ipad|ipod/.test(navigator.userAgent.toLowerCase());
+  const isStandalone = window.navigator.standalone === true;
+  const dismissed = localStorage.getItem('pwa-dismissed');
+  if(isIOS && !isStandalone && !dismissed){
+    const banner = document.getElementById('install-banner');
+    if(banner){
+      banner.style.display='flex';
+      setTimeout(()=>banner.style.opacity='1',100);
+    }
+  }
+}
+function dismissInstallBanner(){
+  const banner=document.getElementById('install-banner');
+  if(banner){banner.style.opacity='0';setTimeout(()=>banner.style.display='none',300);}
+  localStorage.setItem('pwa-dismissed','1');
+}
+window.addEventListener('load', showInstallBanner);
+
+// ===== SERVICE WORKER (offline support) =====
+if('serviceWorker' in navigator){
+  const swCode = `
+self.addEventListener('install', e => {
+  e.waitUntil(
+    caches.open('barbie-runner-v1').then(cache =>
+      cache.addAll(['./', './index.html'])
+    )
+  );
+});
+self.addEventListener('fetch', e => {
+  e.respondWith(
+    caches.match(e.request).then(r => r || fetch(e.request))
+  );
+});`;
+  const blob = new Blob([swCode], {type:'application/javascript'});
+  navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
+}
 </script>
 
 <div class="bottom-nav" id="bottom-nav">
@@ -728,6 +847,21 @@ function renderProgressBar(){
     <span class="bnav-icon">➕</span>
     <span class="bnav-label">Agregar</span>
   </button>
+</div>
+
+<!-- PWA Install Banner -->
+<div id="install-banner">
+  <div class="ib-icon">🩷</div>
+  <div class="ib-text">
+    <div class="ib-title">Agregar a pantalla de inicio</div>
+    <div class="ib-sub">Úsala como app sin abrir Safari</div>
+    <div class="ib-steps">
+      <span>Toca</span>
+      <span style="font-size:15px">⬆️</span>
+      <span>→ "Agregar a inicio"</span>
+    </div>
+  </div>
+  <button class="ib-close" onclick="dismissInstallBanner()">✕</button>
 </div>
 </body>
 </html>
