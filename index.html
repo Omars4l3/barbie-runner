@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <!-- ===== PWA iOS / Android ===== -->
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -171,25 +171,78 @@ body{font-family:'Nunito',sans-serif;background:var(--sand);color:var(--text);mi
 
 /* ===== BOTTOM NAV ===== */
 .bottom-nav{
-  position:fixed;bottom:0;left:0;right:0;
-  background:var(--white);
-  border-top:1px solid var(--border);
+  position:fixed;bottom:0;left:0;right:0;z-index:200;
+  padding:0 12px calc(env(safe-area-inset-bottom) + 10px) 12px;
+  padding-top:8px;
+  background:transparent;
+  pointer-events:none;
+}
+.bnav-inner{
   display:flex;justify-content:space-around;align-items:center;
-  height:64px;z-index:200;
-  box-shadow:0 -4px 20px rgba(244,63,122,0.08);
-  padding-bottom:env(safe-area-inset-bottom)
+  background:rgba(255,255,255,0.82);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(244,63,122,0.15);
+  border-radius:28px;
+  height:62px;
+  box-shadow:0 8px 32px rgba(244,63,122,0.18),0 2px 8px rgba(0,0,0,0.06);
+  overflow:hidden;
+  pointer-events:all;
+  position:relative;
+}
+[data-theme='dark'] .bnav-inner{
+  background:rgba(30,14,34,0.88);
+  border-color:rgba(244,114,182,0.2);
+  box-shadow:0 8px 32px rgba(0,0,0,0.4);
+}
+/* Active sliding pill indicator */
+.bnav-pill{
+  position:absolute;
+  height:46px;width:52px;
+  background:linear-gradient(135deg,#F43F7A,#C084FC);
+  border-radius:18px;
+  top:8px;left:0;
+  transition:left .3s cubic-bezier(.34,1.3,.64,1);
+  box-shadow:0 4px 14px rgba(244,63,122,0.4);
+  z-index:0;
+  pointer-events:none;
 }
 .bnav-item{
   flex:1;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:3px;cursor:pointer;
-  padding:8px 4px;border:none;background:none;
-  font-family:'Nunito',sans-serif;transition:all .2s
+  justify-content:center;gap:2px;cursor:pointer;
+  padding:8px 2px;border:none;background:none;
+  font-family:'Nunito',sans-serif;
+  transition:transform .2s cubic-bezier(.34,1.3,.64,1);
+  position:relative;z-index:1;
+  -webkit-tap-highlight-color:transparent;
 }
-.bnav-icon{font-size:20px;transition:transform .2s}
-.bnav-label{font-size:9px;font-weight:800;color:var(--text-soft);text-transform:uppercase;letter-spacing:.05em;transition:color .2s}
-.bnav-item.active .bnav-label{color:var(--rose)}
-.bnav-item.active .bnav-icon{transform:translateY(-2px)}
-.bnav-item:active .bnav-icon{transform:scale(.88)}
+.bnav-icon{
+  font-size:19px;
+  transition:transform .25s cubic-bezier(.34,1.5,.64,1),filter .2s;
+  display:block;
+  line-height:1;
+}
+.bnav-label{
+  font-size:8.5px;font-weight:800;
+  color:var(--text-soft);
+  text-transform:uppercase;letter-spacing:.04em;
+  transition:color .2s,opacity .2s;
+  white-space:nowrap;
+}
+.bnav-item.active .bnav-label{color:white}
+.bnav-item.active .bnav-icon{
+  transform:scale(1.15) translateY(-1px);
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+}
+.bnav-item:active{transform:scale(.88)}
+/* Ripple on tap */
+.bnav-item::after{
+  content:'';position:absolute;
+  width:48px;height:48px;border-radius:50%;
+  background:rgba(244,63,122,0.15);
+  transform:scale(0);opacity:0;
+  transition:transform .3s,opacity .3s;
+}
+.bnav-item:active::after{transform:scale(1.2);opacity:1}
 
 /* ===== GLASSMORPHISM CARDS ===== */
 .glass-card{
@@ -275,7 +328,7 @@ body{font-family:'Nunito',sans-serif;background:var(--sand);color:var(--text);mi
 .sparkline{display:inline-block;vertical-align:middle}
 
 /* ===== BODY PADDING FOR BOTTOM NAV ===== */
-body{padding-bottom:calc(80px + env(safe-area-inset-bottom))}
+body{padding-bottom:calc(90px + env(safe-area-inset-bottom))}
 
 
 /* ===== PWA INSTALL BANNER ===== */
@@ -647,15 +700,45 @@ async function addManual(){
 function switchTab(id){
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.bnav-item').forEach(b=>b.classList.remove('active'));
-  document.getElementById('pane-'+id).classList.add('active');
+  const pane=document.getElementById('pane-'+id);
+  if(pane)pane.classList.add('active');
   const btn=document.getElementById('bnav-'+id);
-  if(btn)btn.classList.add('active');
+  if(btn){
+    btn.classList.add('active');
+    // Animate sliding pill
+    const pill=document.getElementById('bnav-pill');
+    const inner=document.getElementById('bnav-inner');
+    if(pill&&inner){
+      const btnRect=btn.getBoundingClientRect();
+      const innerRect=inner.getBoundingClientRect();
+      const pillW=52;
+      const offset=btnRect.left - innerRect.left + (btnRect.width - pillW)/2;
+      pill.style.left=offset+'px';
+    }
+  }
   // Re-trigger animations
   document.querySelectorAll('#pane-'+id+' .animate-up').forEach((el,i)=>{
+    el.style.animationDelay=(i*0.06)+'s';
     el.style.animation='none';
-    setTimeout(()=>{el.style.animation='';},10);
+    setTimeout(()=>{el.style.animation='fadeInUp .4s cubic-bezier(.34,1.1,.64,1) both';},10);
   });
 }
+// Init pill position on load
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    const btn=document.getElementById('bnav-resumen');
+    const pill=document.getElementById('bnav-pill');
+    const inner=document.getElementById('bnav-inner');
+    if(btn&&pill&&inner){
+      const btnRect=btn.getBoundingClientRect();
+      const innerRect=inner.getBoundingClientRect();
+      const pillW=52;
+      pill.style.transition='none';
+      pill.style.left=(btnRect.left-innerRect.left+(btnRect.width-pillW)/2)+'px';
+      setTimeout(()=>pill.style.transition='',50);
+    }
+  },200);
+});
 loadFromSheets();renderPlan();
 
 // ===== DARK MODE =====
@@ -740,22 +823,85 @@ function renderProgressBar(){
 
 // ===== PWA: Generate icon + manifest dynamically =====
 (function(){
-  // Generate 192x192 canvas icon
+  // Generate beautiful 512x512 icon
   const canvas = document.createElement('canvas');
-  canvas.width = 192; canvas.height = 192;
+  canvas.width = 512; canvas.height = 512;
   const ctx = canvas.getContext('2d');
-  // Background gradient
-  const grad = ctx.createLinearGradient(0,0,192,192);
-  grad.addColorStop(0,'#F43F7A');
-  grad.addColorStop(1,'#C084FC');
-  ctx.fillStyle = grad;
-  ctx.roundRect(0,0,192,192,40);
+
+  // Rounded rect background
+  ctx.beginPath();
+  ctx.roundRect(0,0,512,512,112);
+  ctx.closePath();
+  const bg = ctx.createLinearGradient(0,0,512,512);
+  bg.addColorStop(0,'#F43F7A');
+  bg.addColorStop(0.5,'#9B2C6E');
+  bg.addColorStop(1,'#7C3AED');
+  ctx.fillStyle = bg;
   ctx.fill();
-  // Emoji
-  ctx.font = '110px serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('🩷', 96, 96);
+
+  // Subtle inner glow circle
+  const glow = ctx.createRadialGradient(256,200,20,256,200,280);
+  glow.addColorStop(0,'rgba(255,255,255,0.18)');
+  glow.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.fillStyle = glow;
+  ctx.beginPath();
+  ctx.roundRect(0,0,512,512,112);
+  ctx.fill();
+
+  // Running figure (white silhouette)
+  ctx.fillStyle = 'rgba(255,255,255,0.95)';
+  // Head
+  ctx.beginPath();
+  ctx.arc(256, 118, 38, 0, Math.PI*2);
+  ctx.fill();
+  // Body
+  ctx.beginPath();
+  ctx.moveTo(256,156);
+  ctx.bezierCurveTo(220,180,215,220,218,265);
+  ctx.bezierCurveTo(220,280,240,285,256,278);
+  ctx.bezierCurveTo(272,285,292,280,294,265);
+  ctx.bezierCurveTo(297,220,292,180,256,156);
+  ctx.fill();
+  // Left arm (pumped forward)
+  ctx.beginPath();
+  ctx.moveTo(230,175);
+  ctx.bezierCurveTo(200,185,178,200,165,228);
+  ctx.bezierCurveTo(162,236,168,244,176,240);
+  ctx.bezierCurveTo(190,215,208,202,232,195);
+  ctx.fill();
+  // Right arm (back)
+  ctx.beginPath();
+  ctx.moveTo(282,175);
+  ctx.bezierCurveTo(312,185,334,198,348,222);
+  ctx.bezierCurveTo(352,230,346,238,338,234);
+  ctx.bezierCurveTo(324,212,304,200,278,194);
+  ctx.fill();
+  // Left leg (forward stride)
+  ctx.beginPath();
+  ctx.moveTo(244,270);
+  ctx.bezierCurveTo(236,300,228,332,218,358);
+  ctx.bezierCurveTo(210,378,196,390,184,400);
+  ctx.bezierCurveTo(176,408,178,420,188,418);
+  ctx.bezierCurveTo(204,406,220,392,232,368);
+  ctx.bezierCurveTo(246,340,254,308,258,278);
+  ctx.fill();
+  // Right leg (back stride)
+  ctx.beginPath();
+  ctx.moveTo(268,270);
+  ctx.bezierCurveTo(276,298,282,326,290,350);
+  ctx.bezierCurveTo(298,372,312,386,326,396);
+  ctx.bezierCurveTo(334,402,336,414,326,414);
+  ctx.bezierCurveTo(310,400,294,384,284,358);
+  ctx.bezierCurveTo(272,330,264,300,254,272);
+  ctx.fill();
+
+  // Small heart accent bottom right
+  ctx.fillStyle = 'rgba(255,255,255,0.9)';
+  ctx.font = 'bold 72px serif';
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'bottom';
+  ctx.fillText('🩷', 478, 484);
+
   const iconUrl = canvas.toDataURL('image/png');
 
   // Set apple touch icon
@@ -823,30 +969,33 @@ self.addEventListener('fetch', e => {
 </script>
 
 <div class="bottom-nav" id="bottom-nav">
-  <button class="bnav-item active" id="bnav-resumen" onclick="switchTab('resumen')">
-    <span class="bnav-icon">📊</span>
-    <span class="bnav-label">Resumen</span>
-  </button>
-  <button class="bnav-item" id="bnav-progreso" onclick="switchTab('progreso')">
-    <span class="bnav-icon">📈</span>
-    <span class="bnav-label">Progreso</span>
-  </button>
-  <button class="bnav-item" id="bnav-zonas" onclick="switchTab('zonas')">
-    <span class="bnav-icon">❤️</span>
-    <span class="bnav-label">Zonas FC</span>
-  </button>
-  <button class="bnav-item" id="bnav-plan" onclick="switchTab('plan')">
-    <span class="bnav-icon">📅</span>
-    <span class="bnav-label">Plan</span>
-  </button>
-  <button class="bnav-item" id="bnav-consejos" onclick="switchTab('consejos')">
-    <span class="bnav-icon">💡</span>
-    <span class="bnav-label">Consejos</span>
-  </button>
-  <button class="bnav-item" id="bnav-actualizar" onclick="switchTab('actualizar')">
-    <span class="bnav-icon">➕</span>
-    <span class="bnav-label">Agregar</span>
-  </button>
+  <div class="bnav-inner" id="bnav-inner">
+    <div class="bnav-pill" id="bnav-pill"></div>
+    <button class="bnav-item active" id="bnav-resumen" onclick="switchTab('resumen')">
+      <span class="bnav-icon">📊</span>
+      <span class="bnav-label">Inicio</span>
+    </button>
+    <button class="bnav-item" id="bnav-progreso" onclick="switchTab('progreso')">
+      <span class="bnav-icon">📈</span>
+      <span class="bnav-label">Progreso</span>
+    </button>
+    <button class="bnav-item" id="bnav-zonas" onclick="switchTab('zonas')">
+      <span class="bnav-icon">❤️</span>
+      <span class="bnav-label">Zonas</span>
+    </button>
+    <button class="bnav-item" id="bnav-plan" onclick="switchTab('plan')">
+      <span class="bnav-icon">📅</span>
+      <span class="bnav-label">Plan</span>
+    </button>
+    <button class="bnav-item" id="bnav-consejos" onclick="switchTab('consejos')">
+      <span class="bnav-icon">💡</span>
+      <span class="bnav-label">Tips</span>
+    </button>
+    <button class="bnav-item" id="bnav-actualizar" onclick="switchTab('actualizar')">
+      <span class="bnav-icon">➕</span>
+      <span class="bnav-label">Agregar</span>
+    </button>
+  </div>
 </div>
 
 <!-- PWA Install Banner -->
