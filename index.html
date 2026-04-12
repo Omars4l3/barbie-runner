@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barbie Runner — Medio Maratón 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<style>
+:root{--rose:#F43F7A;--rose-soft:#F9A8C9;--rose-pale:#FEF0F5;--rose-ultra:#FFF7FA;--plum:#9B2C6E;--lilac:#C084FC;--lilac-pale:#F3E8FF;--sand:#F5F0EB;--text:#2D1B2E;--text-mid:#7C4D6E;--text-soft:#B08090;--white:#FFFFFF;--border:rgba(244,63,122,0.12);--radius:18px;--radius-sm:10px;--shadow:0 2px 16px rgba(244,63,122,0.07)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:var(--sand);color:var(--text);min-height:100vh;padding-bottom:60px}
+.header{background:var(--white);padding:24px 20px 0;border-bottom:1px solid var(--border);box-shadow:var(--shadow)}
+.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.header-name{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--text)}
+.header-name span{color:var(--rose);font-style:italic}
+.header-sub{font-size:12px;color:var(--text-soft);font-weight:600;margin-top:1px}
+.race-pill{background:linear-gradient(135deg,var(--rose),var(--lilac));color:white;font-size:11px;font-weight:700;padding:6px 12px;border-radius:999px;white-space:nowrap}
+.countdown{display:grid;grid-template-columns:repeat(4,1fr);background:var(--rose-pale);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:16px;border:1px solid var(--border)}
+.cd-item{text-align:center;padding:10px 4px;border-right:1px solid var(--border)}
+.cd-item:last-child{border-right:none}
+.cd-num{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--rose);line-height:1}
+.cd-label{font-size:9px;color:var(--text-soft);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-top:3px}
+.sticky-nav{position:sticky;top:0;background:white;z-index:100;border-bottom:1px solid var(--border)}
+.nav{display:flex;overflow-x:auto;scrollbar-width:none;padding:0 4px}
+.nav::-webkit-scrollbar{display:none}
+.nav-tab{flex-shrink:0;padding:12px 14px 10px;font-size:12px;font-weight:700;color:var(--text-soft);cursor:pointer;border:none;background:none;border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:all .18s;font-family:'Nunito',sans-serif}
+.nav-tab.active{color:var(--rose);border-bottom-color:var(--rose)}
+.content{padding:18px 16px}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+.metric-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px}
+.metric-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+.metric-card.featured{background:linear-gradient(140deg,#F43F7A,#C084FC);border-color:transparent}
+.m-label{font-size:10px;color:var(--text-soft);text-transform:uppercase;letter-spacing:.07em;font-weight:700;margin-bottom:8px}
+.metric-card.featured .m-label{color:rgba(255,255,255,.75)}
+.m-value{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--rose);line-height:1}
+.metric-card.featured .m-value{color:white}
+.m-sub{font-size:11px;color:var(--text-soft);margin-top:5px;font-weight:600}
+.metric-card.featured .m-sub{color:rgba(255,255,255,.7)}
+.s-title{font-size:10px;font-weight:800;color:var(--text-soft);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.s-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.run-item{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:8px;display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;box-shadow:var(--shadow)}
+.run-name{font-size:13px;font-weight:700;color:var(--text)}
+.run-date{font-size:11px;color:var(--text-soft);margin-top:2px;font-weight:600}
+.run-meta{display:flex;gap:8px;margin-top:7px;flex-wrap:wrap}
+.run-chip{font-size:11px;font-weight:700;color:var(--plum);background:var(--rose-pale);padding:2px 8px;border-radius:999px}
+.run-pace{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--rose)}
+.run-pace-label{font-size:10px;color:var(--text-soft);text-align:right;font-weight:700}
+.chart-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:14px;box-shadow:var(--shadow)}
+.chart-wrap{position:relative;width:100%}
+.zone-row{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.z-name{font-size:11px;color:var(--text-soft);min-width:80px;font-weight:700}
+.z-track{flex:1;height:8px;background:var(--rose-pale);border-radius:999px;overflow:hidden}
+.z-bar{height:100%;border-radius:999px}
+.z-pct{font-size:12px;font-weight:800;min-width:34px;text-align:right}
+.plan-week{margin-bottom:20px}
+.plan-week-title{font-size:11px;font-weight:800;color:var(--text-mid);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.plan-week-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.plan-days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.plan-day{border-radius:10px;padding:8px 3px;text-align:center;border:1.5px solid transparent;position:relative}
+.plan-day.clickable{cursor:pointer;transition:transform .15s,box-shadow .15s}
+.plan-day.clickable:active{transform:scale(.95)}
+.plan-day.rest{background:var(--rose-ultra);opacity:.5}
+.plan-day.easy{background:#FEF0F5;border-color:#F9A8C9}
+.plan-day.easy:hover{box-shadow:0 4px 12px rgba(244,63,122,.15);transform:translateY(-1px)}
+.plan-day.long{background:#F3E8FF;border-color:#C084FC}
+.plan-day.long:hover{box-shadow:0 4px 12px rgba(192,132,252,.2);transform:translateY(-1px)}
+.plan-day.speed{background:#FFFBEB;border-color:#FCD34D}
+.plan-day.speed:hover{box-shadow:0 4px 12px rgba(252,211,77,.2);transform:translateY(-1px)}
+.plan-day.race{background:linear-gradient(135deg,#F43F7A,#C084FC);border-color:transparent}
+.plan-day.race:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(244,63,122,.3)}
+.day-lbl{font-size:9px;font-weight:800;color:var(--text-soft);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.plan-day.race .day-lbl{color:rgba(255,255,255,.8)}
+.day-icon{font-size:13px;margin-bottom:2px}
+.day-short{font-size:8.5px;font-weight:700;color:var(--text);line-height:1.3}
+.plan-day.race .day-short{color:white;font-weight:800}
+.plan-day.rest .day-short{color:var(--text-soft)}
+.tap-hint{font-size:11px;color:var(--text-soft);font-weight:600;text-align:center;margin-bottom:14px;background:var(--rose-pale);padding:8px;border-radius:var(--radius-sm)}
+.proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
+.proj-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:14px 8px;text-align:center;box-shadow:var(--shadow)}
+.proj-card.main{background:linear-gradient(135deg,#F43F7A,#C084FC);border-color:transparent}
+.proj-lbl{font-size:9px;color:var(--text-soft);font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.proj-card.main .proj-lbl{color:rgba(255,255,255,.8)}
+.proj-time{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--rose)}
+.proj-card.main .proj-time{color:white}
+.proj-pace{font-size:10px;color:var(--text-soft);margin-top:3px;font-weight:700}
+.proj-card.main .proj-pace{color:rgba(255,255,255,.7)}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text-soft);font-weight:700}
+.legend-dot{width:9px;height:9px;border-radius:3px}
+.tip-card{background:var(--white);border:1px solid var(--border);border-left:3px solid var(--rose);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:14px;margin-bottom:10px;box-shadow:var(--shadow)}
+.tip-icon{font-size:16px;margin-bottom:5px}
+.tip-title{font-size:13px;font-weight:800;color:var(--text);margin-bottom:5px}
+.tip-body{font-size:12px;color:var(--text-mid);line-height:1.7;font-weight:600}
+.moti{background:linear-gradient(135deg,#F43F7A,#C084FC);border-radius:var(--radius);padding:18px 20px;margin-bottom:18px;position:relative;overflow:hidden}
+.moti::after{content:'';position:absolute;top:-30px;right:-20px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,.08)}
+.moti-text{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:white;line-height:1.5}
+.moti-sub{font-size:12px;color:rgba(255,255,255,.8);margin-top:5px;font-weight:600}
+.file-area{border:2px dashed var(--rose-soft);border-radius:var(--radius);padding:28px 20px;text-align:center;background:var(--rose-ultra);cursor:pointer;margin-bottom:14px;transition:border-color .2s,background .2s}
+.file-area:hover{border-color:var(--rose);background:var(--rose-pale)}
+.file-area input{display:none}
+.file-area-icon{font-size:32px;margin-bottom:10px}
+.file-area-text{font-size:14px;font-weight:700;color:var(--plum)}
+.file-area-sub{font-size:11px;color:var(--text-soft);margin-top:4px;font-weight:600}
+.status-card{border-radius:var(--radius-sm);padding:12px 14px;font-size:12px;font-weight:700;margin-bottom:14px;display:none}
+.status-card.success{background:#ECFDF5;border:1px solid #6EE7B7;color:#065F46}
+.status-card.error{background:#FEF2F2;border:1px solid #FCA5A5;color:#991B1B}
+.status-card.loading{background:var(--lilac-pale);border:1px solid var(--lilac);color:#6B21A8}
+.form-label{font-size:11px;font-weight:700;color:var(--text-soft);margin-bottom:5px}
+.form-input{width:100%;padding:11px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:'Nunito',sans-serif;font-size:13px;color:var(--text);background:var(--rose-ultra);outline:none;transition:border-color .2s}
+.form-input:focus{border-color:var(--rose)}
+.form-grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn-primary{width:100%;padding:14px;background:linear-gradient(135deg,var(--rose),var(--lilac));color:white;border:none;border-radius:999px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;margin-top:4px;transition:opacity .2s}
+.btn-primary:hover{opacity:.88}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed}
+.sync-bar{display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--rose-pale);border-bottom:1px solid var(--border);font-size:11px;color:var(--text-soft);font-weight:700}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:#6EE7B7;flex-shrink:0}
+.sync-dot.loading{background:var(--lilac);animation:pulse 1s infinite}
+.sync-dot.error{background:#FCA5A5}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(45,27,46,.5);z-index:1000;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px)}
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);border-radius:24px 24px 0 0;padding:20px 20px 36px;width:100%;max-width:500px;max-height:85vh;overflow-y:auto;animation:slideUp .28s cubic-bezier(.34,1.2,.64,1)}
+@keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-handle{width:36px;height:4px;background:var(--rose-soft);border-radius:999px;margin:0 auto 18px}
+.modal-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;font-size:12px;font-weight:800;margin-bottom:10px}
+.modal-title{font-family:'Playfair Display',serif;font-size:21px;font-weight:700;color:var(--text);margin-bottom:4px}
+.modal-week{font-size:12px;color:var(--text-soft);font-weight:700;margin-bottom:16px}
+.modal-sec-title{font-size:10px;font-weight:800;color:var(--text-soft);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.modal-desc{font-size:13px;color:var(--text-mid);line-height:1.75;font-weight:600;background:var(--rose-ultra);border-radius:var(--radius-sm);padding:14px;border-left:3px solid var(--rose-soft);margin-bottom:16px}
+.modal-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.modal-stat{background:var(--sand);border-radius:var(--radius-sm);padding:12px 8px;text-align:center}
+.modal-stat-label{font-size:10px;color:var(--text-soft);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.modal-stat-val{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--rose)}
+.modal-tip{background:var(--lilac-pale);border-radius:var(--radius-sm);padding:12px 14px;font-size:12px;color:#6B21A8;font-weight:600;line-height:1.6;border-left:3px solid var(--lilac);margin-bottom:16px}
+.modal-close{width:100%;padding:14px;background:linear-gradient(135deg,var(--rose),var(--lilac));color:white;border:none;border-radius:999px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif}
+.loading-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:16px}
+.loading-spinner{width:40px;height:40px;border:3px solid var(--rose-pale);border-top-color:var(--rose);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:14px;font-weight:700;color:var(--text-soft)}
+</style>
+</head>
+<body>
+<div class="sync-bar">
+  <div class="sync-dot loading" id="sync-dot"></div>
+  <span id="sync-text">Conectando con Google Sheets...</span>
+</div>
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="header-name">Barbie <span>Runner</span> 🩷</div>
+      <div class="header-sub">Medio Maratón · 13 de julio 2026</div>
+    </div>
+    <div class="race-pill">🏁 13 Jul</div>
+  </div>
+  <div class="countdown">
+    <div class="cd-item"><div class="cd-num" id="cd-weeks">—</div><div class="cd-label">Semanas</div></div>
+    <div class="cd-item"><div class="cd-num" id="cd-days">—</div><div class="cd-label">Días</div></div>
+    <div class="cd-item"><div class="cd-num" id="cd-runs">—</div><div class="cd-label">Carreras</div></div>
+    <div class="cd-item"><div class="cd-num" id="cd-km">—</div><div class="cd-label">Km</div></div>
+  </div>
+  <div class="sticky-nav">
+    <div class="nav">
+      <button class="nav-tab active" onclick="switchTab('resumen',this)">Resumen</button>
+      <button class="nav-tab" onclick="switchTab('progreso',this)">Progreso</button>
+      <button class="nav-tab" onclick="switchTab('zonas',this)">Zonas FC</button>
+      <button class="nav-tab" onclick="switchTab('plan',this)">Plan</button>
+      <button class="nav-tab" onclick="switchTab('consejos',this)">Consejos</button>
+      <button class="nav-tab" onclick="switchTab('actualizar',this)">+ Agregar</button>
+    </div>
+  </div>
+</div>
+<div class="content">
+  <div class="tab-pane active" id="pane-resumen">
+    <div class="loading-screen" id="loading-resumen"><div class="loading-spinner"></div><div class="loading-text">Cargando tus carreras... 🩷</div></div>
+    <div id="resumen-content" style="display:none">
+      <div class="moti"><div class="moti-text">¡Cada km te acerca<br>al 13 de julio! 🩷</div><div class="moti-sub" id="moti-sub">—</div></div>
+      <div class="metric-grid">
+        <div class="metric-card featured"><div class="m-label">Ritmo promedio</div><div class="m-value" id="m-pace">—</div><div class="m-sub">min/km</div></div>
+        <div class="metric-card"><div class="m-label">FC media</div><div class="m-value" id="m-hr">—</div><div class="m-sub">lpm promedio</div></div>
+        <div class="metric-card"><div class="m-label">Km totales</div><div class="m-value" id="m-km">—</div><div class="m-sub">acumulados</div></div>
+        <div class="metric-card"><div class="m-label">Mejor tirada</div><div class="m-value" id="m-best">—</div><div class="m-sub">km · distancia máx</div></div>
+      </div>
+      <div class="s-title">Últimas actividades</div>
+      <div id="run-list"></div>
+    </div>
+  </div>
+  <div class="tab-pane" id="pane-progreso">
+    <div class="chart-card"><div class="s-title">Ritmo por carrera (min/km)</div><div class="chart-wrap" style="height:220px"><canvas id="paceChart" role="img" aria-label="Ritmo por carrera"></canvas></div></div>
+    <div class="chart-card"><div class="s-title">Km por semana</div><div class="chart-wrap" style="height:180px"><canvas id="kmChart" role="img" aria-label="Km por semana"></canvas></div></div>
+    <div class="chart-card"><div class="s-title">Distancia por carrera</div><div class="chart-wrap" style="height:180px"><canvas id="distChart" role="img" aria-label="Distancia por carrera"></canvas></div></div>
+  </div>
+  <div class="tab-pane" id="pane-zonas">
+    <div class="metric-grid">
+      <div class="metric-card"><div class="m-label">FC máxima</div><div class="m-value" style="color:#F43F7A" id="m-hrmax">—</div><div class="m-sub">lpm registrado</div></div>
+      <div class="metric-card"><div class="m-label">FC mínima</div><div class="m-value" style="color:#C084FC" id="m-hrmin">—</div><div class="m-sub">lpm registrado</div></div>
+    </div>
+    <div class="chart-card"><div class="s-title">Distribución de zonas cardíacas</div><div id="zone-list"></div><div style="font-size:11px;color:var(--text-soft);margin-top:8px;font-weight:600;">Basado en FC máxima registrada</div></div>
+    <div class="chart-card"><div class="s-title">FC media por carrera</div><div class="chart-wrap" style="height:200px"><canvas id="hrChart" role="img" aria-label="FC media por carrera"></canvas></div></div>
+    <div class="tip-card" style="border-left-color:var(--lilac)"><div class="tip-icon">💜</div><div class="tip-title">¿Qué significan las zonas?</div><div class="tip-body">Z1 Recuperación · Z2 Base aeróbica (tiradas largas) · Z3 Tempo · Z4 Umbral (ritmo de carrera) · Z5 Máximo. Para el medio maratón la meta es mantenerse en Z3–Z4.</div></div>
+  </div>
+  <div class="tab-pane" id="pane-plan">
+    <div class="proj-grid">
+      <div class="proj-card"><div class="proj-lbl">Actual</div><div class="proj-time" id="proj-current">—</div><div class="proj-pace" id="proj-pace">— /km</div></div>
+      <div class="proj-card main"><div class="proj-lbl">Meta realista</div><div class="proj-time">2:15</div><div class="proj-pace">6:24 /km</div></div>
+      <div class="proj-card"><div class="proj-lbl">Meta ideal</div><div class="proj-time">2:10</div><div class="proj-pace">6:09 /km</div></div>
+    </div>
+    <div class="s-title">Plan 13 semanas</div>
+    <div class="tap-hint">👆 Toca cualquier día de entrenamiento para ver qué hacer ese día</div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#F9A8C9"></div>Rodaje fácil</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#C084FC"></div>Tirada larga</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#FCD34D"></div>Velocidad</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#E5E7EB"></div>Descanso</div>
+    </div>
+    <div id="plan-container"></div>
+  </div>
+  <div class="tab-pane" id="pane-consejos">
+    <div class="moti"><div class="moti-text">Consejos basados<br>en tus datos reales 📊</div><div class="moti-sub">Personalizados para ti</div></div>
+    <div class="tip-card"><div class="tip-icon">🩷</div><div class="tip-title">Corre más en zona 2</div><div class="tip-body">La mayoría de tus carreras están en zona 3–4. Intenta que 2 de tus carreras semanales sean en zona 2 (ritmo conversacional ~7:30–8:00 min/km).</div></div>
+    <div class="tip-card"><div class="tip-icon">📏</div><div class="tip-title">Incrementa la tirada larga gradualmente</div><div class="tip-body">Agrega 1–2 km por semana. Necesitas llegar a 18–19 km antes del 13 de julio. Descansa cada 4ª semana.</div></div>
+    <div class="tip-card" style="border-left-color:#FCD34D"><div class="tip-icon">⚡</div><div class="tip-title">Un día de velocidad fijo por semana</div><div class="tip-body">5×1 km a ritmo 5:50–6:00 min/km con 90 seg de recuperación. Mejora tu umbral de lactato.</div></div>
+    <div class="tip-card" style="border-left-color:#FB923C"><div class="tip-icon">🔥</div><div class="tip-title">Tu mejor ritmo: 5:29 min/km</div><div class="tip-body">Lo lograste en Boca del Río. Para el medio maratón apunta a salir a 6:20–6:30 y mantenerlo constante.</div></div>
+    <div class="tip-card" style="border-left-color:#4ADE80"><div class="tip-icon">🥤</div><div class="tip-title">Practica hidratación en carrera</div><div class="tip-body">Desde los 14 km, toma agua y gel cada 45 minutos. El cuerpo necesita energía extra después de 60 minutos.</div></div>
+    <div class="tip-card" style="border-left-color:var(--lilac)"><div class="tip-icon">🌸</div><div class="tip-title">Tapering: semana antes de la carrera</div><div class="tip-body">Del 30 jun al 6 jul reduce el volumen al 40%. Solo 3 rodajes cortos de 4–5 km. Llega descansada al 13 de julio.</div></div>
+  </div>
+  <div class="tab-pane" id="pane-actualizar">
+    <div class="moti"><div class="moti-text">Actualiza tus datos 📂</div><div class="moti-sub">Se guardan automáticamente en Google Sheets</div></div>
+    <div class="status-card" id="status-card"></div>
+    <div class="s-title">Opción 1 · Subir CSV de Garmin</div>
+    <div class="file-area" onclick="document.getElementById('csvInput').click()">
+      <input type="file" id="csvInput" accept=".csv" onchange="handleCSV(this)">
+      <div class="file-area-icon">📁</div>
+      <div class="file-area-text">Toca aquí para subir tu archivo CSV</div>
+      <div class="file-area-sub">Descárgalo desde Garmin Connect → Actividades → Exportar</div>
+    </div>
+    <div class="s-title">Opción 2 · Agregar manualmente</div>
+    <div class="chart-card">
+      <div style="display:grid;gap:12px;">
+        <div><div class="form-label">Fecha</div><input type="date" id="f-date" class="form-input"></div>
+        <div><div class="form-label">Nombre de la actividad</div><input type="text" id="f-name" class="form-input" placeholder="Ej: Rodaje mañanero"></div>
+        <div class="form-grid2">
+          <div><div class="form-label">Distancia (km)</div><input type="number" id="f-dist" class="form-input" placeholder="8.5" step="0.01"></div>
+          <div><div class="form-label">Ritmo (min:seg/km)</div><input type="text" id="f-pace" class="form-input" placeholder="6:45"></div>
+        </div>
+        <div><div class="form-label">FC media (lpm)</div><input type="number" id="f-hr" class="form-input" placeholder="155"></div>
+        <button class="btn-primary" id="btn-add" onclick="addManual()">Guardar en Google Sheets 🩷</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-badge" id="modal-badge"></div>
+    <div class="modal-title" id="modal-title"></div>
+    <div class="modal-week" id="modal-week"></div>
+    <div class="modal-sec-title">¿Qué hacer hoy?</div>
+    <div class="modal-desc" id="modal-desc"></div>
+    <div class="modal-sec-title">Objetivos del entrenamiento</div>
+    <div class="modal-stats" id="modal-stats"></div>
+    <div class="modal-sec-title">Consejo del día</div>
+    <div class="modal-tip" id="modal-tip"></div>
+    <button class="modal-close" onclick="closeModal()">¡A entrenar! 💪</button>
+  </div>
+</div>
+<script>
+const SCRIPT_URL='https://script.google.com/macros/s/AKfycbznrLFG155pppouVdULihbMTqpth29gncxfSsNqbsOZd3_6-M9OKdu9WiiC-h-ebOIc/exec';
+let runs=[],chartInstances={};
+const planData=[
+  {label:'Sem 1 · 14–20 abr',days:[
+    {t:'easy',n:'Lu',short:'Fácil 6K',title:'Rodaje fácil — 6 km',desc:'Corre 6 km a un ritmo muy cómodo donde puedas mantener una conversación. El objetivo es activar las piernas y entrar en calor para la semana.',dist:'6 km',pace:'7:15–7:45',zona:'Z2',tip:'Usa este día para escuchar tu cuerpo. La facilidad de hoy construye la fuerza de mañana.'},
+    {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'El descanso es parte del entrenamiento. Tu cuerpo se recupera y se hace más fuerte.',dist:'—',pace:'—',zona:'—',tip:'Hidratarte bien y dormir 7–8 horas. La recuperación es cuando el cuerpo mejora.'},
+    {t:'speed',n:'Mi',short:'Fartlek 5K',title:'Fartlek — 5 km',desc:'Calienta 10 min. Alterna: 1 min rápido (esfuerzo 8/10) + 2 min suave. Repite 6–8 veces. Enfría 5 min.',dist:'5 km',pace:'Variado',zona:'Z3–Z4',tip:'El fartlek no tiene estructura rígida. Acelera cuando te sientas bien.'},
+    {t:'rest',n:'Ju',short:'Descanso',title:'Día de descanso',desc:'Descanso activo. Ideal para estiramientos de 15–20 min.',dist:'—',pace:'—',zona:'—',tip:'El foam roller en cuádriceps y gemelos hoy puede hacer maravillas.'},
+    {t:'easy',n:'Vi',short:'Ritmo 6K',title:'Rodaje a ritmo — 6 km',desc:'1 km calentamiento + 4 km a ritmo objetivo (6:20–6:30 min/km) + 1 km enfriamiento.',dist:'6 km',pace:'6:20–6:30',zona:'Z3–Z4',tip:'Es mejor terminar sintiéndote que podías dar más que terminar agotada.'},
+    {t:'rest',n:'Sá',short:'Descanso',title:'Descanso previo a tirada',desc:'Descansa antes de la tirada larga del domingo.',dist:'—',pace:'—',zona:'—',tip:'Prepara tu ropa y tu hidratación para mañana.'},
+    {t:'long',n:'Do',short:'Larga 14K',title:'Tirada larga — 14 km',desc:'El entrenamiento más importante de la semana. 14 km a ritmo cómodo (7:00–7:30) donde puedas hablar. Lleva agua y gel al km 8.',dist:'14 km',pace:'7:00–7:30',zona:'Z2–Z3',tip:'La tirada larga desarrolla tu resistencia mental y física para el 13 de julio.'},
+  ]},
+  {label:'Sem 2 · 21–27 abr',days:[
+    {t:'easy',n:'Lu',short:'Fácil 6K',title:'Rodaje fácil — 6 km',desc:'Recuperación activa. 6 km muy suave. Tus piernas pueden sentirse pesadas — es normal.',dist:'6 km',pace:'7:20–7:50',zona:'Z2',tip:'Si las piernas están muy cargadas, reduce a 5 km.'},
+    {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'Descanso. Bebe 2 litros de agua hoy.',dist:'—',pace:'—',zona:'—',tip:'La hidratación acelera la recuperación muscular.'},
+    {t:'speed',n:'Mi',short:'5×1 km',title:'Intervalos 5×1 km',desc:'Calienta 1.5 km. 1 km rápido (5:50–6:00) + 90 seg recuperación. Repite 5 veces. Enfría 1 km.',dist:'~8 km',pace:'5:50–6:00 en series',zona:'Z4–Z5',tip:'Cada serie es un paso hacia el 13 de julio.'},
+    {t:'rest',n:'Ju',short:'Descanso',title:'Día de descanso',desc:'Descanso. Come proteínas para la recuperación.',dist:'—',pace:'—',zona:'—',tip:'Come proteínas hoy.'},
+    {t:'easy',n:'Vi',short:'Ritmo 7K',title:'Rodaje a ritmo — 7 km',desc:'1 km calentamiento + 5 km a ritmo objetivo (6:20–6:30) + 1 km enfriamiento.',dist:'7 km',pace:'6:20–6:30',zona:'Z3–Z4',tip:'Practica respirar de manera controlada.'},
+    {t:'rest',n:'Sá',short:'Descanso',title:'Descanso previo a tirada',desc:'Prepara todo para mañana.',dist:'—',pace:'—',zona:'—',tip:'Duerme bien.'},
+    {t:'long',n:'Do',short:'Larga 16K',title:'Tirada larga — 16 km',desc:'2 km más que la semana pasada. Ritmo conversacional (7:00–7:30). Gel al km 8 y km 12.',dist:'16 km',pace:'7:00–7:30',zona:'Z2–Z3',tip:'Si nunca has corrido 16 km, es un hito enorme.'},
+  ]},
+  {label:'Sem 3 · 28 abr–4 may',days:[
+    {t:'easy',n:'Lu',short:'Fácil 7K',title:'Rodaje fácil — 7 km',desc:'7 km suaves. Ritmo muy cómodo.',dist:'7 km',pace:'7:20–7:50',zona:'Z2',tip:'Tu cuerpo ya sabe cómo manejarlo.'},
+    {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'speed',n:'Mi',short:'Fartlek 6K',title:'Fartlek progresivo — 6 km',desc:'1 km calentamiento + 2 min rápido / 1 min suave × 8 veces + 1 km enfriamiento.',dist:'6 km',pace:'Progresivo',zona:'Z3–Z5',tip:'Nota cómo cada semana el esfuerzo se siente más manejable.'},
+    {t:'rest',n:'Ju',short:'Descanso',title:'Día de descanso',desc:'Visualiza la carrera del 13 de julio.',dist:'—',pace:'—',zona:'—',tip:'La visualización es una herramienta poderosa.'},
+    {t:'easy',n:'Vi',short:'Ritmo 8K',title:'Rodaje a ritmo — 8 km',desc:'1.5 km calentamiento + 5 km a ritmo objetivo + 1.5 km enfriamiento.',dist:'8 km',pace:'6:20–6:30',zona:'Z3–Z4',tip:'Si puedes hablar frases cortas al km 3, estás en el ritmo correcto.'},
+    {t:'rest',n:'Sá',short:'Descanso',title:'Descanso previo a tirada',desc:'Come carbohidratos hoy.',dist:'—',pace:'—',zona:'—',tip:'La carga de carbohidratos mejora el rendimiento.'},
+    {t:'long',n:'Do',short:'Larga 18K',title:'Tirada larga — 18 km',desc:'¡18 km! Ya estás al 85% del medio maratón. Ritmo muy suave. Gel al km 7, 12 y 16.',dist:'18 km',pace:'7:00–7:30',zona:'Z2–Z3',tip:'Los últimos 4 km serán difíciles. Divídelos en bloques de 1 km.'},
+  ]},
+  {label:'Sem 4 · Recuperación',days:[
+    {t:'easy',n:'Lu',short:'Fácil 5K',title:'Rodaje fácil — 5 km',desc:'Semana de recuperación. 5 km muy suave.',dist:'5 km',pace:'7:30–8:00',zona:'Z1–Z2',tip:'La semana de recuperación es tan importante como las semanas duras.'},
+    {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'easy',n:'Mi',short:'Trote 4K',title:'Trote suave — 4 km',desc:'Solo 4 km muy suaves.',dist:'4 km',pace:'8:00–8:30',zona:'Z1',tip:'Si te sientes cansada, camina.'},
+    {t:'rest',n:'Ju',short:'Descanso',title:'Día de descanso',desc:'Yoga restaurativo o estiramientos.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'easy',n:'Vi',short:'Fácil 5K',title:'Rodaje fácil — 5 km',desc:'5 km suaves para cerrar la semana de recuperación.',dist:'5 km',pace:'7:20–7:45',zona:'Z2',tip:'Si las piernas se sienten ligeras, la recuperación funcionó.'},
+    {t:'rest',n:'Sá',short:'Descanso',title:'Día de descanso',desc:'Descansa.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'long',n:'Do',short:'12K fácil',title:'Tirada — 12 km',desc:'Solo 12 km. Ritmo muy cómodo. Es tu recompensa por las 3 semanas duras.',dist:'12 km',pace:'7:00–7:30',zona:'Z2',tip:'Nota qué tan diferente se siente correr después de descansar.'},
+  ]},
+  {label:'Sem 5–8 · Construcción',days:[
+    {t:'easy',n:'Lu',short:'Fácil 7K',title:'Rodaje fácil — 7 km',desc:'Regresa con energía renovada. 7 km a ritmo cómodo.',dist:'7 km',pace:'7:10–7:40',zona:'Z2',tip:'Deberías sentirte renovada.'},
+    {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'speed',n:'Mi',short:'6×1 km',title:'Intervalos 6×1 km',desc:'6 repeticiones de 1 km a 5:50–6:00 con 90 seg recuperación.',dist:'~9 km',pace:'5:50–6:00 en series',zona:'Z4–Z5',tip:'La sexta repetición va a ser dura. Cada una te hace más fuerte.'},
+    {t:'rest',n:'Ju',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'easy',n:'Vi',short:'Ritmo 9K',title:'Rodaje a ritmo — 9 km',desc:'1.5 km calentamiento + 6 km a ritmo objetivo (6:15–6:25) + 1.5 km enfriamiento.',dist:'9 km',pace:'6:15–6:25',zona:'Z3–Z4',tip:'Si mantienes 6:20 durante 6 km hoy, podrás en los 21 km.'},
+    {t:'rest',n:'Sá',short:'Descanso',title:'Descanso previo a tirada',desc:'Prepara todo.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'long',n:'Do',short:'Larga 19K',title:'Tirada larga — 19 km',desc:'¡Tu tirada más larga! 19 km a ritmo muy cómodo. Gel al km 8, 13 y 17.',dist:'19 km',pace:'7:00–7:30',zona:'Z2–Z3',tip:'Después de hoy, el medio maratón ya no parece imposible.'},
+  ]},
+  {label:'Sem 9–11 · Peak',days:[
+    {t:'easy',n:'Lu',short:'Fácil 8K',title:'Rodaje fácil — 8 km',desc:'8 km suaves. Fase más intensa del plan.',dist:'8 km',pace:'7:10–7:40',zona:'Z2',tip:'No subestimes los rodajes fáciles.'},
+    {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'speed',n:'Mi',short:'Tempo 8K',title:'Carrera tempo — 8 km',desc:'2 km calentamiento + 5 km a ritmo tempo (6:00–6:10) + 1 km enfriamiento.',dist:'8 km',pace:'6:00–6:10 en tempo',zona:'Z4',tip:'El tempo fortalece tu umbral de lactato.'},
+    {t:'rest',n:'Ju',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'easy',n:'Vi',short:'Ritmo 10K',title:'Rodaje a ritmo — 10 km',desc:'2 km calentamiento + 6 km a ritmo objetivo (6:15–6:20) + 2 km enfriamiento.',dist:'10 km',pace:'6:15–6:20',zona:'Z3–Z4',tip:'Practica el mantra que usarás en los km difíciles de la carrera.'},
+    {t:'rest',n:'Sá',short:'Descanso',title:'Descanso previo a tirada',desc:'Última tirada larga importante.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'long',n:'Do',short:'Larga 18K',title:'Tirada larga — 18 km',desc:'Última tirada larga. 18 km a ritmo muy cómodo.',dist:'18 km',pace:'7:00–7:30',zona:'Z2–Z3',tip:'¡Estás en la recta final!'},
+  ]},
+  {label:'Sem 12 · Reducción',days:[
+    {t:'easy',n:'Lu',short:'Fácil 6K',title:'Rodaje fácil — 6 km',desc:'El volumen baja. 6 km muy suaves.',dist:'6 km',pace:'7:20–7:50',zona:'Z2',tip:'Estás acumulando energía para el día grande.'},
+    {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'easy',n:'Mi',short:'Ritmo 6K',title:'Rodaje a ritmo — 6 km',desc:'1 km calentamiento + 4 km a ritmo objetivo + 1 km enfriamiento.',dist:'6 km',pace:'6:20–6:25',zona:'Z3–Z4',tip:'Tu cuerpo está listo.'},
+    {t:'rest',n:'Ju',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'easy',n:'Vi',short:'Fácil 5K',title:'Rodaje fácil — 5 km',desc:'5 km suaves. En 10 días cruzas la meta.',dist:'5 km',pace:'7:30–8:00',zona:'Z1–Z2',tip:'¡Ya casi!'},
+    {t:'rest',n:'Sá',short:'Descanso',title:'Día de descanso',desc:'Descanso.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'long',n:'Do',short:'10K suave',title:'Rodaje suave — 10 km',desc:'10 km muy suaves. Mantén las piernas activas sin fatigarlas.',dist:'10 km',pace:'7:30–8:00',zona:'Z1–Z2',tip:'Nada puede hacerte más rápida ahora. Solo el descanso y la nutrición.'},
+  ]},
+  {label:'Sem 13 · Tapering 🌸',days:[
+    {t:'easy',n:'Lu',short:'Fácil 4K',title:'Rodaje suave — 4 km',desc:'4 km muy suaves. Todo el trabajo ya está hecho.',dist:'4 km',pace:'7:30–8:00',zona:'Z1',tip:'Confía en el entrenamiento que ya hiciste.'},
+    {t:'rest',n:'Ma',short:'Descanso',title:'Día de descanso',desc:'Relájate y prepara mentalmente el día de la carrera.',dist:'—',pace:'—',zona:'—',tip:''},
+    {t:'easy',n:'Mi',short:'Trote 3K',title:'Trote activación — 3 km',desc:'3 km muy suaves con 4–5 aceleraciones cortas de 20 seg al final.',dist:'3 km',pace:'7:30+',zona:'Z1',tip:'Bebe mucha agua estos días.'},
+    {t:'rest',n:'Ju',short:'Descanso',title:'Prepara todo para el domingo',desc:'Prepara: ropa, número de corredor, hidratación, desayuno.',dist:'—',pace:'—',zona:'—',tip:'Prepara todo la noche anterior.'},
+    {t:'rest',n:'Vi',short:'Descanso',title:'Descanso total',desc:'Descanso total. Camina un poco si quieres. Duerme temprano.',dist:'—',pace:'—',zona:'—',tip:'Come pasta o arroz en la cena.'},
+    {t:'rest',n:'Sá',short:'Descanso',title:'Día antes de la carrera',desc:'Descansa. Come bien. Revisa tu equipo: tenis, ropa, número, reloj, gel.',dist:'—',pace:'—',zona:'—',tip:'Los nervios son normales — significan que importa.'},
+    {t:'race',n:'Do',short:'¡CARRERA! 21K',title:'¡Día de la carrera! 🏁',desc:'¡Hoy es el día! Primeros 5 km más lento (6:30–6:40). Del km 5 al 15 mantén tu ritmo (6:20–6:25). Últimos 6 km: deja todo. Al cruzar la meta, llora, celebra — te lo ganaste.',dist:'21.1 km',pace:'6:20–6:30',zona:'Z3–Z4',tip:'En los km 16–19 recuerda todos los domingos de tirada larga. ¡Ese esfuerzo te trajo aquí! 🩷'},
+  ]},
+];
+function paceToSecs(p){if(!p||!String(p).includes(':'))return 0;const[m,s]=String(p).split(':').map(Number);return m*60+(s||0)}
+function secsToStr(s){return Math.floor(s/60)+':'+String(Math.round(s%60)).padStart(2,'0')}
+function halfTime(p){const s=paceToSecs(p);if(!s)return'—';const t=s*21.0975;return Math.floor(t/3600)+':'+String(Math.floor((t%3600)/60)).padStart(2,'0')}
+function showStatus(msg,type){const el=document.getElementById('status-card');el.textContent=msg;el.className='status-card '+type;el.style.display='block'}
+async function loadFromSheets(){
+  try{
+    const res=await fetch(SCRIPT_URL);
+    const data=await res.json();
+    if(data.ok&&data.runs&&data.runs.length>0){
+      runs=data.runs.map(r=>({date:String(r.fecha||'').substring(0,10),name:r.nombre||'Carrera',dist:parseFloat(r.distancia)||0,pace:(function(v){v=String(v||'7:00');if(v.includes('T')){var d=new Date(v);var mins=d.getUTCHours()*60+d.getUTCMinutes();var secs=d.getUTCSeconds();return mins+':'+String(secs).padStart(2,'0')}return v})(),hr:parseInt(r.fc_media)||150})).filter(r=>r.date&&r.dist>0);
+      runs.sort((a,b)=>new Date(b.date)-new Date(a.date));
+      setSyncOk('Sincronizado con Google Sheets · '+runs.length+' carreras');
+    }else{setSyncOk('Sin datos aún · Agrega tu primera carrera')}
+  }catch(e){setSyncError('Sin conexión a Sheets');runs=getFallback()}
+  renderAll()
+}
+function setSyncOk(m){document.getElementById('sync-dot').className='sync-dot';document.getElementById('sync-text').textContent=m}
+function setSyncError(m){document.getElementById('sync-dot').className='sync-dot error';document.getElementById('sync-text').textContent=m}
+function getFallback(){return[{date:'2026-04-10',name:'Emiliano Zapata',dist:6,pace:'6:54',hr:155},{date:'2026-04-06',name:'Rodaje 11K',dist:11.01,pace:'6:47',hr:154},{date:'2026-03-21',name:'Boca del Río',dist:10.14,pace:'5:29',hr:183},{date:'2026-03-15',name:'Fondito 15K',dist:15.01,pace:'6:29',hr:163}]}
+async function saveToSheets(payload){const res=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify(payload)});return await res.json()}
+function renderAll(){
+  document.getElementById('loading-resumen').style.display='none';
+  document.getElementById('resumen-content').style.display='block';
+  const totalKm=runs.reduce((a,r)=>a+r.dist,0);
+  const race=new Date('2026-07-13'),today=new Date();
+  const diff=Math.ceil((race-today)/(24*3600*1000));
+  document.getElementById('cd-weeks').textContent=Math.floor(diff/7);
+  document.getElementById('cd-days').textContent=diff%7;
+  document.getElementById('cd-runs').textContent=runs.length;
+  document.getElementById('cd-km').textContent=Math.round(totalKm);
+  const vp=runs.filter(r=>paceToSecs(r.pace)>0);
+  const ap=vp.length?secsToStr(vp.reduce((a,r)=>a+paceToSecs(r.pace),0)/vp.length):'—';
+  document.getElementById('m-pace').textContent=ap;
+  document.getElementById('m-hr').textContent=Math.round(runs.reduce((a,r)=>a+r.hr,0)/runs.length)||'—';
+  document.getElementById('m-km').textContent=Math.round(totalKm);
+  document.getElementById('m-best').textContent=Math.max(...runs.map(r=>r.dist)).toFixed(1);
+  document.getElementById('moti-sub').textContent=runs.length+' carreras · '+Math.round(totalKm)+' km acumulados';
+  document.getElementById('proj-current').textContent=halfTime(ap);
+  document.getElementById('proj-pace').textContent=ap+' /km';
+  const list=document.getElementById('run-list');list.innerHTML='';
+  runs.slice(0,8).forEach(r=>{
+    const d=new Date(r.date),ds=d.toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'});
+    list.innerHTML+=`<div class="run-item"><div><div class="run-name">${r.name}</div><div class="run-date">${ds}</div><div class="run-meta"><span class="run-chip">${r.dist.toFixed(1)} km</span><span class="run-chip">${r.hr} lpm</span></div></div><div><div class="run-pace">${r.pace}</div><div class="run-pace-label">min/km</div></div></div>`
+  });
+  const maxHR=Math.max(...runs.map(r=>r.hr)),minHR=Math.min(...runs.map(r=>r.hr));
+  document.getElementById('m-hrmax').textContent=maxHR;
+  document.getElementById('m-hrmin').textContent=minHR;
+  const zD=[{name:'Z1 Recuperación',color:'#6ee7b7'},{name:'Z2 Aeróbico',color:'#34d399'},{name:'Z3 Tempo',color:'#F43F7A'},{name:'Z4 Umbral',color:'#E91E8C'},{name:'Z5 Máximo',color:'#C084FC'}];
+  const zC=[0,0,0,0,0];
+  runs.forEach(r=>{const p=r.hr/maxHR*100;if(p<57)zC[0]++;else if(p<66)zC[1]++;else if(p<76)zC[2]++;else if(p<85)zC[3]++;else zC[4]++});
+  const zEl=document.getElementById('zone-list');zEl.innerHTML='';
+  zD.forEach((z,i)=>{const pct=Math.round(zC[i]/runs.length*100);zEl.innerHTML+=`<div class="zone-row"><div class="z-name">${z.name}</div><div class="z-track"><div class="z-bar" style="width:${pct}%;background:${z.color}"></div></div><div class="z-pct" style="color:${z.color}">${pct}%</div></div>`});
+  renderCharts();renderPlan();
+}
+function renderCharts(){
+  Object.values(chartInstances).forEach(c=>{try{c.destroy()}catch(e){}});chartInstances={};
+  const s=[...runs].sort((a,b)=>new Date(a.date)-new Date(b.date));
+  const lb=s.map(r=>new Date(r.date).toLocaleDateString('es-MX',{day:'2-digit',month:'short'}));
+  chartInstances.pace=new Chart(document.getElementById('paceChart'),{type:'line',data:{labels:lb,datasets:[{data:s.map(r=>+(paceToSecs(r.pace)/60).toFixed(2)),borderColor:'#F43F7A',backgroundColor:'rgba(244,63,122,0.06)',borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#F43F7A',fill:true,tension:.35}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{reverse:true,ticks:{color:'#B08090',font:{size:10},callback:v=>v.toFixed(1)},grid:{color:'rgba(244,63,122,0.06)'}},x:{ticks:{color:'#B08090',font:{size:9},maxRotation:45,autoSkip:true,maxTicksLimit:8},grid:{display:false}}}}});
+  const wm={};runs.forEach(r=>{const d=new Date(r.date),wk=d.getFullYear()+'-'+String(Math.ceil(((d-new Date(d.getFullYear(),0,1))/(7*24*3600*1000)))).padStart(2,'0');wm[wk]=(wm[wk]||0)+r.dist});
+  const wk=Object.keys(wm).sort();
+  chartInstances.km=new Chart(document.getElementById('kmChart'),{type:'bar',data:{labels:wk.map(k=>k.split('-')[1]),datasets:[{data:wk.map(k=>+wm[k].toFixed(1)),backgroundColor:'#F9A8C9',borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{color:'#B08090',font:{size:10}},grid:{color:'rgba(244,63,122,0.06)'}},x:{ticks:{color:'#B08090',font:{size:10}},grid:{display:false}}}}});
+  chartInstances.dist=new Chart(document.getElementById('distChart'),{type:'bar',data:{labels:lb,datasets:[{data:s.map(r=>r.dist),backgroundColor:s.map(r=>r.dist>=10?'#C084FC':r.dist>=7?'#F43F7A':'#F9A8C9'),borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{color:'#B08090',font:{size:10}},grid:{color:'rgba(244,63,122,0.06)'}},x:{ticks:{color:'#B08090',font:{size:9},maxRotation:45,autoSkip:true,maxTicksLimit:10},grid:{display:false}}}}});
+  const rc=[...runs].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,12).reverse();
+  chartInstances.hr=new Chart(document.getElementById('hrChart'),{type:'bar',data:{labels:rc.map(r=>new Date(r.date).toLocaleDateString('es-MX',{day:'2-digit',month:'short'})),datasets:[{data:rc.map(r=>r.hr),backgroundColor:rc.map(r=>r.hr>180?'#C084FC':r.hr>165?'#F43F7A':'#F9A8C9'),borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:130,ticks:{color:'#B08090',font:{size:10}},grid:{color:'rgba(244,63,122,0.06)'}},x:{ticks:{color:'#B08090',font:{size:9},maxRotation:45},grid:{display:false}}}}});
+}
+function renderPlan(){
+  const pc=document.getElementById('plan-container');pc.innerHTML='';
+  planData.forEach((w,wi)=>{
+    let h=`<div class="plan-week"><div class="plan-week-title">🩷 ${w.label}</div><div class="plan-days">`;
+    w.days.forEach((d,di)=>{
+      const cl=d.t!=='rest'?`onclick="openModal(${wi},${di})" class="plan-day ${d.t} clickable"`:`class="plan-day rest"`;
+      const ic=d.t==='rest'?'😴':d.t==='long'?'🏃':d.t==='speed'?'⚡':d.t==='race'?'🏁':'🩷';
+      h+=`<div ${cl}><div class="day-lbl">${d.n}</div><div class="day-icon">${ic}</div><div class="day-short">${d.short.replace('\n','<br>')}</div></div>`;
+    });
+    h+='</div></div>';pc.innerHTML+=h;
+  });
+}
+function openModal(wi,di){
+  const w=planData[wi],d=w.days[di];
+  const colors={easy:'background:#FEF0F5;color:#9B2C6E',long:'background:#F3E8FF;color:#6B21A8',speed:'background:#FFFBEB;color:#92400E',race:'background:linear-gradient(135deg,#F43F7A,#C084FC);color:white'};
+  const icons={easy:'🩷',long:'🏃',speed:'⚡',race:'🏁'};
+  const labels={easy:'Rodaje fácil',long:'Tirada larga',speed:'Velocidad',race:'¡CARRERA!'};
+  document.getElementById('modal-badge').style.cssText=colors[d.t]||colors.easy;
+  document.getElementById('modal-badge').textContent=`${icons[d.t]||'🩷'} ${labels[d.t]||'Entrenamiento'}`;
+  document.getElementById('modal-title').textContent=d.title;
+  document.getElementById('modal-week').textContent=w.label;
+  document.getElementById('modal-desc').textContent=d.desc;
+  document.getElementById('modal-stats').innerHTML=`<div class="modal-stat"><div class="modal-stat-label">Distancia</div><div class="modal-stat-val">${d.dist}</div></div><div class="modal-stat"><div class="modal-stat-label">Ritmo</div><div class="modal-stat-val" style="font-size:13px">${d.pace}</div></div><div class="modal-stat"><div class="modal-stat-label">Zona FC</div><div class="modal-stat-val" style="font-size:14px">${d.zona}</div></div>`;
+  document.getElementById('modal-tip').textContent=d.tip||'¡Tú puedes! 🩷';
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(e){if(!e||e.target===document.getElementById('modal-overlay')){document.getElementById('modal-overlay').classList.remove('open');document.body.style.overflow=''}}
+async function handleCSV(input){
+  const file=input.files[0];if(!file)return;
+  showStatus('⏳ Procesando CSV...','loading');
+  Papa.parse(file,{header:true,skipEmptyLines:true,complete:async function(r){
+    const nr=[];
+    r.data.forEach(row=>{
+      if(!(row['Tipo de actividad']||'').toLowerCase().includes('carrera'))return;
+      const dist=parseFloat((row['Distancia']||'0').replace(',','.'));
+      const date=(row['Fecha']||'').substring(0,10);
+      if(!date||!dist)return;
+      nr.push({fecha:date,nombre:row['Título']||'Carrera',distancia:dist,ritmo:row['Ritmo medio']||'7:00',fc_media:parseInt(row['Frecuencia cardiaca media']||'150')||150});
+    });
+    if(!nr.length){showStatus('❌ No se encontraron carreras en el archivo.','error');return}
+    try{showStatus(`⏳ Guardando ${nr.length} carreras...`,'loading');const res=await saveToSheets({action:'addRuns',runs:nr});showStatus(`✅ ${res.added} carreras nuevas guardadas en Google Sheets 🩷`,'success');await loadFromSheets()}
+    catch(e){showStatus('❌ Error al guardar.','error')}
+    input.value='';
+  },error:()=>showStatus('❌ Error al leer el archivo.','error')});
+}
+async function addManual(){
+  const fecha=document.getElementById('f-date').value,nombre=document.getElementById('f-name').value||'Carrera',distancia=parseFloat(document.getElementById('f-dist').value),ritmo=document.getElementById('f-pace').value||'7:00',fc_media=parseInt(document.getElementById('f-hr').value)||150;
+  if(!fecha||!distancia||isNaN(distancia)){alert('Fecha y distancia son obligatorias.');return}
+  const btn=document.getElementById('btn-add');btn.disabled=true;btn.textContent='Guardando...';
+  try{showStatus('⏳ Guardando en Google Sheets...','loading');await saveToSheets({action:'addOne',fecha,nombre,distancia,ritmo,fc_media});showStatus(`✅ "${nombre}" guardada en Google Sheets! 🩷`,'success');['f-date','f-name','f-dist','f-pace','f-hr'].forEach(id=>document.getElementById(id).value='');await loadFromSheets()}
+  catch(e){showStatus('❌ Error al guardar.','error')}
+  btn.disabled=false;btn.textContent='Guardar en Google Sheets 🩷';
+}
+function switchTab(id,btn){document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));document.getElementById('pane-'+id).classList.add('active');btn.classList.add('active')}
+loadFromSheets();renderPlan();
+</script>
+</body>
+</html>
